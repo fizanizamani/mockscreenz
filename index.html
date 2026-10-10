@@ -1,0 +1,3353 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Signly — Pakistan Sign Language & Smart Assistive System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* Exact Signly brand palette matching the official logo */
+    --navy: #1A2849;        /* Wordmark deep midnight navy */
+    --blue: #2563EB;        /* Logo bottom hand royal electric blue */
+    --blue-gradient: linear-gradient(135deg, #3B82F6 0%, #2563EB 50%, #1D4ED8 100%);
+    --teal: #00B090;        /* Logo top hand vibrant emerald-teal */
+    --teal-glow: #00C49F;   /* Logo signature 'i' dot bright teal */
+    --teal-light: #5EEAD4;
+    --brand-gradient: linear-gradient(135deg, #00C49F 0%, #2563EB 100%);
+    
+    --bg: #F7F8FA;
+    --surface: #FFFFFF;
+    --surface-alt: #F1F4F8;
+    --line: #E3E8EF;
+    --text: #0F1B33;
+    --text-mid: #4B5768;
+    --text-soft: #8894A6;
+    
+    /* Semantic accents */
+    --green: #22C55E;
+    --green-bg: #DCFCE7;
+    --red: #EF4444;
+    --red-dark: #7F1D1D;
+    --red-bg: #FEE2E2;
+    --amber: #F59E0B;
+    --amber-bg: #FEF3C7;
+    --navy-dark: #0B1220;
+    --navy-card: #101B2E;
+    --navy-surface: #1E2A44;
+    
+    /* Device Mockup Tokens */
+    --phone-w: 320px;
+    --phone-h: 680px;
+    --radius-phone: 46px;
+    --shadow-phone: 0 24px 60px -15px rgba(26, 40, 73, 0.24), 0 10px 24px -10px rgba(26, 40, 73, 0.12);
+    --shadow-card: 0 4px 16px -4px rgba(26, 40, 73, 0.06), 0 1px 3px rgba(26, 40, 73, 0.04);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html {
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+    width: 100%;
+  }
+
+  body {
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: linear-gradient(180deg, #091224 0%, #0F1B33 280px, #EEF2F6 280px, #F7F8FA 100%);
+    color: var(--text);
+    min-height: 100vh;
+    padding: clamp(20px, 4vw, 40px) clamp(12px, 3vw, 24px) 140px;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+    width: 100%;
+    position: relative;
+  }
+
+  /* Presentation Header */
+  .header-container {
+    max-width: 1240px;
+    margin: 0 auto clamp(24px, 4vw, 36px);
+    text-align: center;
+    position: relative;
+    padding: 0 8px;
+  }
+  .brand-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(0, 196, 159, 0.12);
+    border: 1px solid rgba(0, 196, 159, 0.3);
+    color: #5EEAD4;
+    padding: 6px 16px;
+    border-radius: 999px;
+    font-size: clamp(10.5px, 2.5vw, 12px);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    backdrop-filter: blur(8px);
+    max-width: 100%;
+    line-height: 1.4;
+  }
+  .brand-pill img { width: 18px; height: 18px; object-fit: contain; flex-shrink: 0; }
+  h1.page-title {
+    color: #FFFFFF;
+    font-size: clamp(22px, 5.5vw, 34px);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    margin-bottom: 10px;
+    line-height: 1.25;
+  }
+  .signly-brand-text {
+    font-family: 'Nunito', 'Plus Jakarta Sans', sans-serif;
+    font-weight: 800;
+    color: #FFFFFF;
+    position: relative;
+    display: inline-flex;
+    align-items: baseline;
+    letter-spacing: -0.02em;
+  }
+  .signly-brand {
+    font-family: 'Nunito', 'Plus Jakarta Sans', sans-serif;
+    font-weight: 800;
+    color: var(--navy);
+    letter-spacing: -0.02em;
+    display: inline-flex;
+    align-items: baseline;
+    vertical-align: baseline;
+  }
+  .signly-brand-title {
+    font-family: 'Nunito', 'Plus Jakarta Sans', sans-serif;
+    font-size: 34px;
+    font-weight: 800;
+    color: var(--navy);
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    display: inline-flex;
+    align-items: baseline;
+    justify-content: center;
+  }
+  .brand-i {
+    position: relative;
+    display: inline-block;
+    color: inherit;
+  }
+  .brand-i::after {
+    content: '';
+    position: absolute;
+    top: 0.10em;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0.22em;
+    height: 0.22em;
+    background-color: #08AF95;
+    border-radius: 50%;
+  }
+  .signly-brand.signly-brand-light,
+  .signly-brand-text {
+    color: #FFFFFF;
+  }
+  .signly-brand.signly-brand-light .brand-i::after,
+  .signly-brand-text .brand-i::after {
+    background-color: var(--teal-glow);
+  }
+  p.page-sub {
+    color: #B9C4DA;
+    font-size: clamp(13px, 3vw, 15px);
+    max-width: 760px;
+    margin: 0 auto clamp(20px, 3.5vw, 28px);
+    line-height: 1.6;
+    padding: 0 8px;
+  }
+
+  /* Category Filter Chips */
+  .filter-bar-wrapper {
+    position: relative;
+    max-width: 100%;
+    margin: 0 auto clamp(24px, 4vw, 44px);
+  }
+  .filter-bar {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px 10px;
+  }
+  .filter-chip {
+    background: rgba(255, 255, 255, 0.08);
+    color: #D1D9E6;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-size: clamp(11.5px, 2.5vw, 13px);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    backdrop-filter: blur(10px);
+    user-select: none;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .filter-chip:hover {
+    background: rgba(255, 255, 255, 0.18);
+    color: #FFFFFF;
+    transform: translateY(-1px);
+  }
+  .filter-chip.active {
+    background: var(--blue);
+    color: #FFFFFF;
+    border-color: var(--blue);
+    box-shadow: 0 4px 14px rgba(37, 99, 235, 0.4);
+  }
+
+  /* Main Grid */
+  .grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: clamp(24px, 4vw, 48px) clamp(16px, 3vw, 36px);
+    max-width: 1600px;
+    margin: 0 auto;
+    width: 100%;
+    transition: opacity 0.25s ease;
+  }
+
+  /* Single Screen Focus Mode */
+  .grid.single-mode .slot {
+    display: none !important;
+  }
+  .grid.single-mode .slot.active-single-focus {
+    display: flex !important;
+    animation: focusSlotIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  @keyframes focusSlotIn {
+    0% { opacity: 0; transform: scale(0.96); }
+    100% { opacity: 1; transform: scale(1); }
+  }
+
+  /* Screen Slot */
+  .slot {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    width: 100%;
+    max-width: var(--phone-w);
+  }
+  .slot.hidden {
+    display: none !important;
+  }
+  .slot-label-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: var(--phone-w);
+    padding: 0 4px;
+    box-sizing: border-box;
+  }
+  .slot-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--navy);
+    background: #FFFFFF;
+    padding: 5px 12px;
+    border-radius: 999px;
+    box-shadow: 0 2px 8px rgba(26, 40, 73, 0.08);
+    border: 1px solid var(--line);
+    min-width: 0;
+    max-width: calc(100% - 80px);
+  }
+  .slot-label span:last-child {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .slot-label .badge {
+    background: var(--surface-alt);
+    color: var(--blue);
+    font-size: 11px;
+    padding: 1px 7px;
+    border-radius: 10px;
+    font-weight: 800;
+    flex-shrink: 0;
+  }
+  .expand-btn {
+    background: #FFFFFF;
+    color: var(--text-mid);
+    border: 1px solid var(--line);
+    font-size: 11.5px;
+    font-weight: 700;
+    padding: 5px 11px;
+    border-radius: 999px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    box-shadow: 0 2px 8px rgba(26, 40, 73, 0.08);
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+  }
+  .expand-btn:hover {
+    color: var(--blue);
+    border-color: var(--blue);
+    transform: translateY(-1px);
+  }
+
+  /* Phone Mockup Frame */
+  .phone {
+    width: var(--phone-w);
+    height: var(--phone-h);
+    max-width: 100%;
+    flex-shrink: 0;
+    background: var(--bg);
+    border-radius: var(--radius-phone);
+    box-shadow: 
+      0 0 0 3px #1E293B,
+      0 0 0 7px #0B1220,
+      inset 0 0 0 1.5px rgba(255, 255, 255, 0.2),
+      var(--shadow-phone);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    user-select: none;
+    box-sizing: border-box;
+  }
+  .phone.dark-theme {
+    background: #0B1220;
+    color: #FFFFFF;
+  }
+  .phone.sos-theme {
+    background: radial-gradient(circle at 50% 20%, #450A0A 0%, #180507 80%);
+    color: #FFFFFF;
+    border: 2px solid rgba(239, 68, 68, 0.4);
+  }
+
+  /* Dynamic Island */
+  .dynamic-island {
+    position: absolute;
+    top: 11px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 96px;
+    height: 25px;
+    background: #000000;
+    border-radius: 999px;
+    z-index: 60;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 10px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+    pointer-events: none;
+  }
+  .island-cam {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: #0d1527;
+    border: 1.5px solid #162238;
+    position: relative;
+  }
+  .island-cam::after {
+    content: '';
+    position: absolute;
+    top: 1px; left: 1px;
+    width: 3px; height: 3px;
+    border-radius: 50%;
+    background: var(--teal-glow);
+    opacity: 0.7;
+  }
+  .island-sensor {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #0d1527;
+  }
+
+  /* Status Bar */
+  .status-bar {
+    height: 44px;
+    padding: 10px 22px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text);
+    z-index: 50;
+    flex-shrink: 0;
+    letter-spacing: -0.01em;
+  }
+  .phone.dark-theme .status-bar, .phone.sos-theme .status-bar { color: #FFFFFF; }
+  .status-icons {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .status-icons svg { width: 14px; height: 14px; fill: currentColor; }
+
+  /* Bottom iOS Home Indicator */
+  .home-indicator {
+    position: absolute;
+    bottom: 6px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 124px;
+    height: 4.5px;
+    background: var(--text);
+    opacity: 0.25;
+    border-radius: 999px;
+    z-index: 70;
+    pointer-events: none;
+  }
+  .phone.dark-theme .home-indicator, .phone.sos-theme .home-indicator { background: #FFFFFF; opacity: 0.35; }
+
+  /* Scrollable Phone Inner Content */
+  .phone-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px 16px 74px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    position: relative;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(26, 40, 73, 0.2) transparent;
+  }
+  .phone-content::-webkit-scrollbar { width: 4px; }
+  .phone-content::-webkit-scrollbar-thumb {
+    background: rgba(26, 40, 73, 0.2);
+    border-radius: 4px;
+  }
+  .phone.dark-theme .phone-content::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.25);
+  }
+
+  /* Fixed App Header */
+  .phone-header-fixed {
+    padding: 4px 16px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+    z-index: 40;
+    background: inherit;
+  }
+  .phone-header-fixed h2 {
+    font-size: 17px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: var(--navy);
+  }
+  .phone.dark-theme .phone-header-fixed h2, .phone.sos-theme .phone-header-fixed h2 { color: #FFFFFF; }
+  .icon-circle-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--surface-alt);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-mid);
+    cursor: pointer;
+    border: none;
+    transition: all 0.15s ease;
+  }
+  .phone.dark-theme .icon-circle-btn {
+    background: rgba(255, 255, 255, 0.1);
+    color: #FFFFFF;
+  }
+  .icon-circle-btn:hover { background: #E2E8F0; transform: scale(1.05); }
+  .icon-circle-btn svg { width: 16px; height: 16px; fill: currentColor; }
+
+  /* Fixed App Bottom Navigation */
+  .phone-nav-fixed {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 58px;
+    background: rgba(255, 255, 255, 0.96);
+    border-top: 1px solid var(--line);
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    z-index: 45;
+    padding-bottom: 8px;
+    backdrop-filter: blur(14px);
+  }
+  .phone.dark-theme .phone-nav-fixed {
+    background: rgba(16, 27, 46, 0.96);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  .nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    color: var(--text-soft);
+    cursor: pointer;
+    font-size: 9.5px;
+    font-weight: 700;
+    transition: color 0.15s ease;
+  }
+  .nav-item svg { width: 18px; height: 18px; fill: currentColor; }
+  .nav-item:hover, .nav-item.active { color: var(--blue); }
+  .nav-item.active svg { fill: var(--blue); }
+  .phone.dark-theme .nav-item.active { color: var(--teal-glow); }
+  .phone.dark-theme .nav-item.active svg { fill: var(--teal-glow); }
+
+  /* Cards & Components */
+  .ui-card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 14px;
+    box-shadow: var(--shadow-card);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .phone.dark-theme .ui-card {
+    background: var(--navy-surface);
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+  .ui-card:hover {
+    box-shadow: 0 8px 20px -4px rgba(26, 40, 73, 0.1);
+  }
+
+  /* Primary Button */
+  .btn-primary {
+    background: var(--blue);
+    color: #FFFFFF;
+    border: none;
+    border-radius: 14px;
+    padding: 12px 18px;
+    font-size: 13.5px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
+    transition: all 0.2s ease;
+    width: 100%;
+  }
+  .btn-primary:hover {
+    background: #1D4ED8;
+    transform: translateY(-1px);
+  }
+  .btn-teal {
+    background: var(--teal);
+    box-shadow: 0 4px 14px rgba(0, 176, 144, 0.35);
+  }
+  .btn-teal:hover {
+    background: #00967A;
+  }
+  .btn-danger {
+    background: var(--red);
+    box-shadow: 0 4px 14px rgba(239, 68, 68, 0.4);
+  }
+  .btn-danger:hover {
+    background: #DC2626;
+  }
+
+  /* Interactive Micro Toggles */
+  .ios-toggle {
+    width: 44px;
+    height: 25px;
+    border-radius: 999px;
+    background: var(--line);
+    position: relative;
+    cursor: pointer;
+    transition: background 0.25s ease;
+    flex-shrink: 0;
+  }
+  .ios-toggle::after {
+    content: '';
+    position: absolute;
+    top: 2.5px;
+    left: 2.5px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #FFFFFF;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.18);
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .ios-toggle.on { background: var(--teal); }
+  .ios-toggle.on::after { transform: translateX(19px); }
+  .ios-toggle.on.blue { background: var(--blue); }
+  .ios-toggle.on.red { background: var(--red); }
+
+  /* Emergency Beacon Pulse */
+  @keyframes beaconPulse {
+    0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); transform: scale(1); }
+    50% { box-shadow: 0 0 0 20px rgba(239, 68, 68, 0); transform: scale(1.03); }
+    100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); transform: scale(1); }
+  }
+  .emergency-pulse-btn {
+    animation: beaconPulse 1.8s infinite;
+  }
+
+  /* Toast Notification Positioned Above Dock */
+  #toast-box {
+    position: fixed;
+    bottom: 84px;
+    left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    background: var(--navy);
+    color: #FFFFFF;
+    padding: 10px 22px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 700;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+    z-index: 9999;
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    max-width: calc(100vw - 32px);
+    box-sizing: border-box;
+    pointer-events: none;
+  }
+  #toast-box.show {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+  }
+  #toast-box .toast-dot {
+    width: 8px; height: 8px; border-radius: 50%; background: var(--teal-glow); flex-shrink: 0;
+  }
+
+  /* Floating Screen Navigation Dock */
+  .dock-container {
+    position: fixed;
+    bottom: 18px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9998;
+    width: calc(100% - 24px);
+    max-width: 470px;
+    display: flex;
+    justify-content: center;
+    pointer-events: none;
+  }
+  .dock-content {
+    pointer-events: auto;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(16, 27, 46, 0.90);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.45), 0 2px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 999px;
+    padding: 6px 10px;
+    color: #FFFFFF;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .dock-btn {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+  }
+  .dock-btn:hover {
+    background: var(--blue);
+    transform: scale(1.08);
+  }
+  .dock-btn svg {
+    width: 18px;
+    height: 18px;
+    fill: currentColor;
+  }
+  .dock-screen-picker {
+    flex: 1;
+    min-width: 0;
+  }
+  .dock-screen-picker select {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.08);
+    color: #FFFFFF;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 999px;
+    padding: 6px 12px;
+    font-size: 12.5px;
+    font-weight: 700;
+    font-family: inherit;
+    cursor: pointer;
+    outline: none;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  .dock-screen-picker select option {
+    background: #0F1B33;
+    color: #FFFFFF;
+  }
+  .dock-divider {
+    width: 1px;
+    height: 20px;
+    background: rgba(255, 255, 255, 0.18);
+    margin: 0 2px;
+    flex-shrink: 0;
+  }
+  .dock-mode-btn {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: #D1D9E6;
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 11.5px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .dock-mode-btn:hover, .dock-mode-btn.active {
+    background: var(--teal);
+    color: #0F1B33;
+  }
+  .dock-mode-btn svg {
+    width: 14px;
+    height: 14px;
+    fill: currentColor;
+  }
+  .dock-top-btn {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+  }
+  .dock-top-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+  }
+  .dock-top-btn svg {
+    width: 16px;
+    height: 16px;
+    fill: currentColor;
+  }
+
+  /* Fully Responsive Modal Zoom View */
+  .zoom-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(9, 18, 36, 0.94);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    z-index: 10000;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: clamp(8px, 1.5vh, 16px) 10px;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    box-sizing: border-box;
+  }
+  .zoom-modal.active { display: flex; }
+  .zoom-modal-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    box-sizing: border-box;
+    margin: auto 0;
+  }
+  .zoom-modal-header {
+    width: 100%;
+    max-width: 380px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    padding: 6px 12px;
+    background: rgba(255, 255, 255, 0.14);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    border-radius: 999px;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    color: #FFFFFF;
+    box-sizing: border-box;
+    z-index: 10001;
+    flex-shrink: 0;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+  }
+  .zoom-header-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+    flex: 1;
+  }
+  .zoom-badge {
+    background: var(--blue);
+    color: #FFFFFF;
+    font-size: 11px;
+    font-weight: 800;
+    padding: 2px 8px;
+    border-radius: 999px;
+    flex-shrink: 0;
+  }
+  .zoom-title {
+    font-size: 12.5px;
+    font-weight: 700;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .zoom-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex-shrink: 0;
+  }
+  .zoom-nav-btn {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.12);
+    border: none;
+    color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .zoom-nav-btn:hover {
+    background: var(--blue);
+  }
+  .zoom-close-btn {
+    background: rgba(239, 68, 68, 0.2);
+    color: #FFA5A5;
+    border: 1px solid rgba(239, 68, 68, 0.35);
+    border-radius: 999px;
+    padding: 4px 12px;
+    font-size: 12px;
+    font-weight: 800;
+    cursor: pointer;
+    margin-left: 4px;
+    transition: all 0.2s ease;
+  }
+  .zoom-close-btn:hover {
+    background: var(--red);
+    color: #FFFFFF;
+  }
+  #zoomPhoneContainer {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    position: relative;
+    transition: width 0.2s ease, height 0.2s ease;
+  }
+
+  /* Media Queries for Responsive Behavior */
+  @media (max-width: 880px) {
+    .filter-bar-wrapper {
+      margin-left: -12px;
+      margin-right: -12px;
+      padding: 0 12px;
+      overflow: hidden;
+    }
+    .filter-bar {
+      justify-content: flex-start;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      padding: 4px 6px 10px;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      scroll-snap-type: x mandatory;
+    }
+    .filter-bar::-webkit-scrollbar {
+      display: none;
+    }
+    .filter-chip {
+      flex-shrink: 0;
+      scroll-snap-align: start;
+    }
+    .filter-bar-wrapper::before,
+    .filter-bar-wrapper::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 10px;
+      width: 28px;
+      pointer-events: none;
+      z-index: 2;
+    }
+    .filter-bar-wrapper::before {
+      left: 0;
+      background: linear-gradient(to right, #0F1B33, transparent);
+    }
+    .filter-bar-wrapper::after {
+      right: 0;
+      background: linear-gradient(to left, #0F1B33, transparent);
+    }
+  }
+
+  @media (max-width: 680px) {
+    .grid {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+
+  @media (max-width: 380px) {
+    :root {
+      --phone-w: calc(100vw - 24px);
+      --phone-h: calc((100vw - 24px) * (680 / 320));
+      --radius-phone: 36px;
+    }
+    body {
+      padding-left: 8px;
+      padding-right: 8px;
+    }
+    .phone {
+      box-shadow: 
+        0 0 0 2px #1E293B,
+        0 0 0 4px #0B1220,
+        inset 0 0 0 1px rgba(255, 255, 255, 0.2),
+        var(--shadow-phone);
+    }
+    .dock-content {
+      padding: 4px 6px;
+      gap: 4px;
+    }
+    .dock-mode-btn span {
+      display: none;
+    }
+  }
+
+  /* Radar Pulse Animation for BLE Pairing */
+  @keyframes radarPulse {
+    0% { transform: scale(0.6); opacity: 0.9; }
+    100% { transform: scale(2.2); opacity: 0; }
+  }
+  .radar-ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 2px solid var(--blue);
+    animation: radarPulse 2.4s infinite cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+
+  /* Auth Screen Styling */
+  .auth-role-tabs {
+    display: flex;
+    background: var(--surface-alt);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 3px;
+    gap: 4px;
+    width: 100%;
+  }
+  .auth-role-pill {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    padding: 7px 4px;
+    border-radius: 9px;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-mid);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+  }
+  .auth-role-pill.active {
+    background: #FFFFFF;
+    color: var(--navy);
+    box-shadow: 0 2px 8px rgba(26, 40, 73, 0.08);
+  }
+  .auth-input-box {
+    position: relative;
+    width: 100%;
+  }
+  .auth-input-label {
+    display: block;
+    font-size: 10.5px;
+    font-weight: 700;
+    color: var(--text-mid);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 5px;
+  }
+  .auth-input-wrapper {
+    display: flex;
+    align-items: center;
+    background: var(--surface-alt);
+    border: 1.5px solid var(--line);
+    border-radius: 12px;
+    padding: 0 12px;
+    gap: 8px;
+    transition: all 0.2s ease;
+  }
+  .auth-input-wrapper:focus-within {
+    border-color: var(--blue);
+    background: #FFFFFF;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+  }
+  .auth-input-wrapper input,
+  .auth-input-wrapper select {
+    border: none;
+    background: transparent;
+    outline: none;
+    width: 100%;
+    padding: 10px 0;
+    font-family: inherit;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--navy);
+  }
+  .auth-input-wrapper input::placeholder {
+    color: var(--text-soft);
+    font-weight: 500;
+  }
+  .auth-icon {
+    width: 16px;
+    height: 16px;
+    fill: var(--text-soft);
+    flex-shrink: 0;
+    transition: fill 0.2s ease;
+  }
+  .auth-input-wrapper:focus-within .auth-icon {
+    fill: var(--blue);
+  }
+  .auth-eye-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    color: var(--text-soft);
+    transition: color 0.2s ease;
+  }
+  .auth-eye-btn:hover {
+    color: var(--navy);
+  }
+  .auth-divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: var(--text-soft);
+    font-size: 10.5px;
+    font-weight: 600;
+    margin: 4px 0;
+  }
+  .auth-divider::before,
+  .auth-divider::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid var(--line);
+  }
+  .auth-divider::before { margin-right: 10px; }
+  .auth-divider::after { margin-left: 10px; }
+  .social-login-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    width: 100%;
+  }
+  .social-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    background: #FFFFFF;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 9px 8px;
+    font-size: 11.5px;
+    font-weight: 700;
+    color: var(--navy);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: var(--shadow-card);
+  }
+  .social-btn:hover {
+    background: var(--surface-alt);
+    border-color: #CBD5E1;
+    transform: translateY(-1px);
+  }
+  .social-btn svg { width: 15px; height: 15px; flex-shrink: 0; }
+  .strength-bars {
+    display: flex;
+    gap: 4px;
+    margin-top: 5px;
+    width: 100%;
+  }
+  .strength-bar {
+    height: 3px;
+    flex: 1;
+    border-radius: 2px;
+    background: var(--line);
+    transition: background 0.3s ease;
+  }
+  .strength-bar.active-green {
+    background: var(--green);
+  }
+
+</style>
+</head>
+<body>
+
+<div class="header-container">
+  <div class="brand-pill">
+    <img src="assets/signly_mark_transparent.png" alt="Signly hands">
+    <span>Pakistan Sign Language • Smart Assistive Ecosystem</span>
+  </div>
+  <h1 class="page-title">
+    <span class="signly-brand-text" aria-label="Signly">S<span class="brand-i" aria-hidden="true">ı</span>gnly</span>
+    <span style="color: #94A3B8; font-weight: 400; font-size: clamp(16px, 3.5vw, 24px); margin: 0 clamp(4px, 1vw, 8px);">—</span>
+    <span>Realistic Mobile UI System</span>
+  </h1>
+  <p class="page-sub">
+    Realistic minimal mobile UI system for two-way Pakistan Sign Language communication and smart assistive alerts.
+  </p>
+
+  <div class="filter-bar-wrapper">
+    <div class="filter-bar">
+      <button class="filter-chip active" onclick="filterCategory('all', this)">All Screens (21)</button>
+      <button class="filter-chip" onclick="filterCategory('onboarding', this)">Onboarding & Setup (01, 04, 05)</button>
+      <button class="filter-chip" onclick="filterCategory('auth', this)">Sign In & Sign Up (02, 03)</button>
+      <button class="filter-chip" onclick="filterCategory('core', this)">Translation & Chat (06-10)</button>
+      <button class="filter-chip" onclick="filterCategory('hardware', this)">Smart Alert Speaker (11, 12, 14, 16)</button>
+      <button class="filter-chip" onclick="filterCategory('sos', this)">Emergency SOS (15, 17)</button>
+      <button class="filter-chip" onclick="filterCategory('people', this)">Contacts & Profile (13, 18)</button>
+      <button class="filter-chip" onclick="filterCategory('system', this)">Activity & Library (19-21)</button>
+    </div>
+  </div>
+</div>
+
+<div class="grid">
+
+
+  <!-- ==================== SCREEN 01: SPLASH / WELCOME ==================== -->
+  <div class="slot" data-category="onboarding" id="slot-1">
+    <div class="slot-label-bar">
+      <div class="slot-label"><span class="badge">01</span><span>Splash / Welcome</span></div>
+      <button class="expand-btn" onclick="openZoomModal(1)">⛶ Zoom</button>
+    </div>
+    <div class="phone">
+      <div class="dynamic-island"><div class="island-cam"></div><div class="island-sensor"></div></div>
+      <div class="status-bar"><span>9:41</span><div class="status-icons"><svg viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9 0 2.12.74 4.07 1.97 5.61L4.35 18.4c-.39.39-.39 1.02 0 1.41.39.39 1.02.39 1.41 0l.85-.85C8.16 19.96 9.98 21 12 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm0 15c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6z"/></svg><svg viewBox="0 0 24 24"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg><svg viewBox="0 0 24 24"><path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z"/></svg></div></div>
+      
+      <div class="phone-content" style="align-items:center; justify-content:center; text-align:center; padding: 32px 24px 48px; gap: 26px;">
+        <div style="width: 104px; height: 104px; border-radius: 30px; background: #FFFFFF; display: flex; align-items: center; justify-content: center; box-shadow: 0 16px 36px rgba(26, 40, 73, 0.12); padding: 16px; border: 1px solid var(--line);">
+          <img src="assets/signly_logo_transparent.png" alt="Signly Logo" style="width: 100%; height: 100%; object-fit: contain;">
+        </div>
+
+        <div>
+          <div style="display:inline-block; font-size:11px; font-weight:800; color:var(--teal); text-transform:uppercase; letter-spacing:0.08em; background:rgba(0,176,144,0.1); padding:5px 14px; border-radius:999px; margin-bottom:10px;">Pakistan Sign Language</div>
+          <div>
+            <h2 class="signly-brand-title" aria-label="Signly">S<span class="brand-i" aria-hidden="true">ı</span>gnly</h2>
+          </div>
+          <p style="font-size: 13.5px; color: var(--text-mid); margin-top: 6px; line-height: 1.45; font-weight: 500; text-wrap: balance; max-width: 250px; margin-left: auto; margin-right: auto;">
+            Bridging Sign Language and Speech, in Real Time
+          </p>
+        </div>
+
+        <button class="btn-primary" onclick="scrollToSlot(4)" style="margin-top: 10px;">
+          <span>Get Started</span>
+          <svg viewBox="0 0 24 24" style="width:16px;height:16px;fill:currentColor;"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+        </button>
+
+        <div style="display: flex; gap: 8px; align-items: center; justify-content: center; margin-top: -14px;">
+          <button onclick="scrollToSlot(2)" style="background: none; border: none; color: var(--blue); font-size: 11.5px; font-weight: 700; cursor: pointer; text-decoration: underline;">Sign In</button>
+          <span style="color: var(--text-soft); font-size: 11px;">•</span>
+          <button onclick="scrollToSlot(3)" style="background: none; border: none; color: var(--teal); font-size: 11.5px; font-weight: 700; cursor: pointer; text-decoration: underline;">Create Account</button>
+        </div>
+
+        <div style="font-size: 11px; color: var(--text-soft); margin-top: -14px;">Version 2.4</div>
+      </div>
+      <div class="home-indicator"></div>
+    </div>
+  </div>
+
+  <!-- ==================== SCREEN 02: SIGN IN / ACCOUNT LOGIN ==================== -->
+  <div class="slot" data-category="auth" id="slot-2">
+    <div class="slot-label-bar">
+      <div class="slot-label"><span class="badge">02</span><span>Sign In / Account Login</span></div>
+      <button class="expand-btn" onclick="openZoomModal(2)">🔍 Zoom</button>
+    </div>
+    <div class="phone">
+      <div class="dynamic-island"><div class="island-cam"></div><div class="island-sensor"></div></div>
+      <div class="status-bar"><span>9:41</span><div class="status-icons"><svg viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9 0 2.12.74 4.07 1.97 5.61L4.35 18.4c-.39.39-.39 1.02 0 1.41.39.39 1.02.39 1.41 0l.85-.85C8.16 19.96 9.98 21 12 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm0 15c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6z"/></svg><svg viewBox="0 0 24 24"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg><svg viewBox="0 0 24 24"><path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z"/></svg></div></div>
+      
+      <div class="phone-header-fixed">
+        <button class="icon-circle-btn" onclick="scrollToSlot(1)" title="Back to Splash"><svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg></button>
+        <h2>Sign In</h2>
+        <button class="icon-circle-btn" onclick="scrollToSlot(6)" title="Skip to Dashboard" style="font-size: 11px; font-weight: 700; color: var(--text-mid); width: auto; padding: 0 8px; border-radius: 999px;">Skip</button>
+      </div>
+
+      <div class="phone-content" style="padding-bottom: 30px; gap: 11px;">
+        <!-- Brand Hero -->
+        <div style="text-align: center; margin-top: 2px;">
+          <div style="width: 44px; height: 44px; border-radius: 14px; background: #FFFFFF; display: inline-flex; align-items: center; justify-content: center; box-shadow: 0 4px 14px rgba(26, 40, 73, 0.08); border: 1px solid var(--line); margin-bottom: 6px;">
+            <img src="assets/signly_mark_transparent.png" alt="Signly Mark" style="width: 28px; height: 28px; object-fit: contain;">
+          </div>
+          <h3 style="font-size: 17px; font-weight: 800; color: var(--navy); line-height: 1.2;">Welcome Back to <span class="signly-brand" aria-label="Signly">S<span class="brand-i" aria-hidden="true">i</span>gnly</span></h3>
+          <p style="font-size: 11px; color: var(--text-soft); margin-top: 3px; line-height: 1.4;">Sign in to sync your PSL avatar, paired smart alert speaker & emergency network.</p>
+        </div>
+
+        <!-- Input 1: Email or Phone -->
+        <div class="auth-input-box">
+          <label class="auth-input-label">Email or Username</label>
+          <div class="auth-input-wrapper">
+            <svg class="auth-icon" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+            <input type="text" id="signin-user" value="fiza.nizamani@signly.pk" placeholder="Enter email or username">
+          </div>
+        </div>
+
+        <!-- Input 2: Password -->
+        <div class="auth-input-box">
+          <label class="auth-input-label">Password</label>
+          <div class="auth-input-wrapper">
+            <svg class="auth-icon" viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
+            <input type="password" id="signin-pass" value="Signly2026!#" placeholder="Enter password">
+            <button type="button" class="auth-eye-btn" onclick="togglePass('signin-pass', this)" title="Show/Hide Password">
+              <svg viewBox="0 0 24 24" style="width: 16px; height: 16px; fill: currentColor;"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Options row -->
+        <div style="display: flex; justify-content: space-between; align-items: center; font-size: 11px;">
+          <label style="display: flex; align-items: center; gap: 5px; cursor: pointer; color: var(--text-mid); font-weight: 600;">
+            <input type="checkbox" checked style="accent-color: var(--blue);"> Remember me
+          </label>
+          <a href="javascript:void(0)" onclick="showToast(3, 'Reset link sent to registered email')" style="color: var(--blue); font-weight: 700; text-decoration: none;">Forgot Password?</a>
+        </div>
+
+        <!-- Primary Sign In Button -->
+        <button class="btn-primary" onclick="handleSignIn()" style="margin-top: 2px;">
+          <span>Sign In</span>
+          <svg viewBox="0 0 24 24" style="width:16px;height:16px;fill:currentColor;"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+        </button>
+
+        <!-- Social Divider -->
+        <div class="auth-divider">or sign in with</div>
+
+        <!-- Social Buttons -->
+        <div class="social-login-grid">
+          <button class="social-btn" onclick="handleSocialAuth('Google')">
+            <svg viewBox="0 0 24 24"><path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.8-2.4 3.67v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.16z"/><path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.26v3.15C3.25 21.36 7.33 24 12 24z"/><path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.26C.46 8.16 0 9.94 0 12s.46 3.84 1.26 5.42l4.02-3.15z"/><path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.25 2.64 1.26 6.58l4.02 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/></svg>
+            <span>Google</span>
+          </button>
+          <button class="social-btn" onclick="handleSocialAuth('Apple')">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.89c.66-.82 1.11-1.96.99-3.1-.96.04-2.12.64-2.8 1.44-.6.69-1.12 1.84-.98 2.95 1.07.08 2.13-.47 2.79-1.29z"/></svg>
+            <span>Apple</span>
+          </button>
+        </div>
+
+        <!-- Switch to Sign Up -->
+        <div style="text-align: center; font-size: 11.5px; color: var(--text-mid); margin-top: 4px;">
+          Don't have an account? 
+          <button onclick="scrollToSlot(3)" style="background: none; border: none; color: var(--blue); font-weight: 800; cursor: pointer; text-decoration: underline; font-size: 11.5px;">Sign Up</button>
+        </div>
+      </div>
+      <div class="home-indicator"></div>
+    </div>
+  </div>
+
+  <!-- ==================== SCREEN 03: SIGN UP / CREATE ACCOUNT ==================== -->
+  <div class="slot" data-category="auth" id="slot-3">
+    <div class="slot-label-bar">
+      <div class="slot-label"><span class="badge">03</span><span>Sign Up / Create Account</span></div>
+      <button class="expand-btn" onclick="openZoomModal(3)">🔍 Zoom</button>
+    </div>
+    <div class="phone">
+      <div class="dynamic-island"><div class="island-cam"></div><div class="island-sensor"></div></div>
+      <div class="status-bar"><span>9:41</span><div class="status-icons"><svg viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9 0 2.12.74 4.07 1.97 5.61L4.35 18.4c-.39.39-.39 1.02 0 1.41.39.39 1.02.39 1.41 0l.85-.85C8.16 19.96 9.98 21 12 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm0 15c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6z"/></svg><svg viewBox="0 0 24 24"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg><svg viewBox="0 0 24 24"><path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z"/></svg></div></div>
+      
+      <div class="phone-header-fixed">
+        <button class="icon-circle-btn" onclick="scrollToSlot(2)" title="Back to Sign In"><svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg></button>
+        <h2>Create Account</h2>
+        <button class="icon-circle-btn" onclick="scrollToSlot(6)" title="Skip to Dashboard" style="font-size: 11px; font-weight: 700; color: var(--text-mid); width: auto; padding: 0 8px; border-radius: 999px;">Skip</button>
+      </div>
+
+      <div class="phone-content" style="padding-bottom: 30px; gap: 11px;">
+        <!-- Header Info -->
+        <div>
+          <div style="font-size: 10px; font-weight: 800; color: var(--teal); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 2px;">ASSISTIVE PROFILE REGISTRATION</div>
+          <h3 style="font-size: 16px; font-weight: 800; color: var(--navy); line-height: 1.25;">Join the <span class="signly-brand" aria-label="Signly">S<span class="brand-i" aria-hidden="true">i</span>gnly</span> Network</h3>
+          <p style="font-size: 11px; color: var(--text-soft); margin-top: 3px; line-height: 1.35;">Create an account to personalize your Pakistan Sign Language translation & alert speaker.</p>
+        </div>
+
+        <!-- Input: Full Name -->
+        <div class="auth-input-box">
+          <label class="auth-input-label">Full Name</label>
+          <div class="auth-input-wrapper">
+            <svg class="auth-icon" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+            <input type="text" id="signup-name" value="Fiza Nizamani" placeholder="e.g. Fiza Nizamani">
+          </div>
+        </div>
+
+        <!-- Input: Username -->
+        <div class="auth-input-box">
+          <label class="auth-input-label">Username</label>
+          <div class="auth-input-wrapper">
+            <svg class="auth-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10h5v-2h-5c-4.34 0-8-3.66-8-8s3.66-8 8-8 8 3.66 8 8v1.43c0 .79-.71 1.57-1.5 1.57s-1.5-.78-1.5-1.57V12c0-2.76-2.24-5-5-5s-5 2.24-5 5 2.24 5 5 5c1.38 0 2.64-.56 3.54-1.46.65.89 1.7 1.46 2.96 1.46 1.93 0 3.5-1.57 3.5-3.5V12c0-5.52-4.48-10-10-10zm0 13c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3z"/></svg>
+            <input type="text" id="signup-username" value="fizanizamani" placeholder="Choose a username">
+          </div>
+        </div>
+
+        <!-- Input: Email Address -->
+        <div class="auth-input-box">
+          <label class="auth-input-label">Email Address</label>
+          <div class="auth-input-wrapper">
+            <svg class="auth-icon" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+            <input type="email" id="signup-email" value="fiza.nizamani@signly.pk" placeholder="name@example.com">
+          </div>
+        </div>
+
+        <!-- Input: Create Password -->
+        <div class="auth-input-box">
+          <label class="auth-input-label">Create Password</label>
+          <div class="auth-input-wrapper">
+            <svg class="auth-icon" viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
+            <input type="password" id="signup-pass" value="SignlyPass2026!" placeholder="At least 8 characters">
+            <button type="button" class="auth-eye-btn" onclick="togglePass('signup-pass', this)" title="Show/Hide Password">
+              <svg viewBox="0 0 24 24" style="width: 16px; height: 16px; fill: currentColor;"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+            </button>
+          </div>
+          <!-- Strength indicator -->
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 4px;">
+            <div class="strength-bars" style="width: 65%;">
+              <div class="strength-bar active-green"></div>
+              <div class="strength-bar active-green"></div>
+              <div class="strength-bar active-green"></div>
+              <div class="strength-bar active-green"></div>
+            </div>
+            <span style="font-size: 9.5px; font-weight: 700; color: var(--green);">Strong</span>
+          </div>
+        </div>
+
+        <!-- Auto Configure Emergency Toggle -->
+        <div class="ui-card" style="padding: 9px 12px; display: flex; align-items: center; justify-content: space-between;">
+          <div>
+            <div style="font-size: 11px; font-weight: 700; color: var(--navy);">Pre-enable SOS Assistance</div>
+            <div style="font-size: 9.5px; color: var(--text-soft);">Auto-sync smart alert speaker on finish</div>
+          </div>
+          <div class="ios-toggle on" onclick="toggleSwitch(this); showToast(21, 'Emergency pre-config toggled')"></div>
+        </div>
+
+        <!-- Create Button -->
+        <button class="btn-primary btn-teal" onclick="handleSignUp()" style="margin-top: 2px;">
+          <span>Create Account & Setup</span>
+          <svg viewBox="0 0 24 24" style="width:16px;height:16px;fill:currentColor;"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+        </button>
+
+        <!-- Switch to Sign In -->
+        <div style="text-align: center; font-size: 11.5px; color: var(--text-mid); margin-top: 2px;">
+          Already have an account? 
+          <button onclick="scrollToSlot(2)" style="background: none; border: none; color: var(--blue); font-weight: 800; cursor: pointer; text-decoration: underline; font-size: 11.5px;">Sign In</button>
+        </div>
+      </div>
+      <div class="home-indicator"></div>
+    </div>
+  </div>
+
+  <!-- ==================== SCREEN 04: ONBOARDING ==================== -->
+  <div class="slot" data-category="onboarding" id="slot-4">
+    <div class="slot-label-bar">
+      <div class="slot-label"><span class="badge">04</span><span>Onboarding Overview</span></div>
+      <button class="expand-btn" onclick="openZoomModal(4)">⛶ Zoom</button>
+    </div>
+    <div class="phone">
+      <div class="dynamic-island"><div class="island-cam"></div><div class="island-sensor"></div></div>
+      <div class="status-bar"><span>9:41</span><div class="status-icons"><svg viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9 0 2.12.74 4.07 1.97 5.61L4.35 18.4c-.39.39-.39 1.02 0 1.41.39.39 1.02.39 1.41 0l.85-.85C8.16 19.96 9.98 21 12 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm0 15c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6z"/></svg><svg viewBox="0 0 24 24"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg><svg viewBox="0 0 24 24"><path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z"/></svg></div></div>
+      
+      <div class="phone-content" style="padding-bottom: 30px;">
+        <div style="width: 100%; height: 170px; border-radius: 20px; overflow: hidden; background: #EEF2F6; border: 1px solid var(--line); position: relative;">
+          <img src="assets/illustration_onboard.jpg" alt="Onboarding" style="width: 100%; height: 100%; object-fit: cover;">
+          <div style="position: absolute; bottom: 8px; left: 8px; background: rgba(26,40,73,0.85); color: #fff; font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 6px; backdrop-filter: blur(4px);">
+            Two-Way Translation & Alerts
+          </div>
+        </div>
+
+        <div>
+          <h3 style="font-size: 18px; font-weight: 800; color: var(--navy); margin-bottom: 4px;">Welcome to <span class="signly-brand" aria-label="Signly">S<span class="brand-i" aria-hidden="true">ı</span>gnly</span></h3>
+          <p style="font-size: 12.5px; color: var(--text-mid); line-height: 1.45;">
+            Connect seamlessly between deaf and hearing users through two-way sign translation and smart alerts:
+          </p>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 8px;">
+          <div class="ui-card" style="padding: 10px 12px; display: flex; gap: 10px; align-items: center;">
+            <div style="width: 34px; height: 34px; border-radius: 10px; background: rgba(0,176,144,0.12); color: var(--teal); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 14px; flex-shrink: 0;">1</div>
+            <div>
+              <div style="font-size: 12px; font-weight: 700; color: var(--navy);">Text to Sign</div>
+              <div style="font-size: 11px; color: var(--text-soft);">Type any phrase to watch the 3D avatar translate into sign</div>
+            </div>
+          </div>
+
+          <div class="ui-card" style="padding: 10px 12px; display: flex; gap: 10px; align-items: center;">
+            <div style="width: 34px; height: 34px; border-radius: 10px; background: rgba(37,99,235,0.12); color: var(--blue); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 14px; flex-shrink: 0;">2</div>
+            <div>
+              <div style="font-size: 12px; font-weight: 700; color: var(--navy);">Sign to Text</div>
+              <div style="font-size: 11px; color: var(--text-soft);">Point camera to detect hand signs and convert them to text</div>
+            </div>
+          </div>
+
+          <div class="ui-card" style="padding: 10px 12px; display: flex; gap: 10px; align-items: center;">
+            <div style="width: 34px; height: 34px; border-radius: 10px; background: rgba(239,68,68,0.12); color: var(--red); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 14px; flex-shrink: 0;">3</div>
+            <div>
+              <div style="font-size: 12px; font-weight: 700; color: var(--navy);">Smart Alert Speaker</div>
+              <div style="font-size: 11px; color: var(--text-soft);">Audible household chimes for doorbells and emergency assistance</div>
+            </div>
+          </div>
+        </div>
+
+        <button class="btn-primary" onclick="scrollToSlot(5)" style="margin-top: 6px;">
+          <span>Set Up Permissions</span>
+          <svg viewBox="0 0 24 24" style="width:16px;height:16px;fill:currentColor;"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+        </button>
+
+        <div style="text-align: center; margin-top: -4px;">
+          <button onclick="scrollToSlot(2)" style="background: none; border: none; color: var(--blue); font-size: 11.5px; font-weight: 700; cursor: pointer;">
+            Already have an account? <span style="text-decoration: underline;">Sign In</span>
+          </button>
+        </div>
+      </div>
+      <div class="home-indicator"></div>
+    </div>
+  </div>
+
+  <!-- ==================== SCREEN 05: PERMISSIONS ==================== -->
+  <div class="slot" data-category="onboarding" id="slot-5">
+    <div class="slot-label-bar">
+      <div class="slot-label"><span class="badge">05</span><span>App Permissions</span></div>
+      <button class="expand-btn" onclick="openZoomModal(5)">⛶ Zoom</button>
+    </div>
+    <div class="phone">
+      <div class="dynamic-island"><div class="island-cam"></div><div class="island-sensor"></div></div>
+      <div class="status-bar"><span>9:41</span><div class="status-icons"><svg viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9 0 2.12.74 4.07 1.97 5.61L4.35 18.4c-.39.39-.39 1.02 0 1.41.39.39 1.02.39 1.41 0l.85-.85C8.16 19.96 9.98 21 12 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm0 15c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6z"/></svg><svg viewBox="0 0 24 24"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg><svg viewBox="0 0 24 24"><path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z"/></svg></div></div>
+      
+      <div class="phone-content" style="padding-bottom: 30px; gap: 14px;">
+        <div style="text-align: center; margin-top: 10px;">
+          <div style="width: 52px; height: 52px; border-radius: 50%; background: rgba(37,99,235,0.1); color: var(--blue); display: flex; align-items: center; justify-content: center; margin: 0 auto 10px;">
+            <svg viewBox="0 0 24 24" style="width:28px;height:28px;fill:currentColor;"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>
+          </div>
+          <h3 style="font-size: 18px; font-weight: 800; color: var(--navy);">Device Permissions</h3>
+          <p style="font-size: 12px; color: var(--text-mid); margin-top: 4px; line-height: 1.45;">
+            Grant access to enable sign language detection and connect with your smart alert speaker:
+          </p>
+        </div>
+
+        <div class="ui-card" style="display: flex; align-items: center; justify-content: space-between;">
+          <div style="display: flex; gap: 10px; align-items: center;">
+            <div style="width: 36px; height: 36px; border-radius: 10px; background: rgba(0,176,144,0.1); color: var(--teal); display: flex; align-items: center; justify-content: center;">
+              <svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:currentColor;"><path d="M9 2L7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2H9zm3 15c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z"/></svg>
+            </div>
+            <div>
+              <div style="font-size: 12.5px; font-weight: 700; color: var(--navy);">Camera Access</div>
+              <div style="font-size: 11px; color: var(--text-soft);">Required for camera sign detection</div>
+            </div>
+          </div>
+          <div class="ios-toggle on" onclick="toggleSwitch(this); showToast(5, 'Camera permission toggled')"></div>
+        </div>
+
+        <div class="ui-card" style="display: flex; align-items: center; justify-content: space-between;">
+          <div style="display: flex; gap: 10px; align-items: center;">
+            <div style="width: 36px; height: 36px; border-radius: 10px; background: rgba(37,99,235,0.1); color: var(--blue); display: flex; align-items: center; justify-content: center;">
+              <svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:currentColor;"><path d="M17.71 7.71L12 2h-1v7.59L6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 11 14.41V22h1l5.71-5.71-4.3-4.29 4.3-4.29zM13 5.83l1.88 1.88L13 9.59V5.83zm1.88 10.46L13 18.17v-3.76l1.88 1.88z"/></svg>
+            </div>
+            <div>
+              <div style="font-size: 12.5px; font-weight: 700; color: var(--navy);">Bluetooth & Nearby</div>
+              <div style="font-size: 11px; color: var(--text-soft);">Connect to your <span class="signly-brand" aria-label="Signly">S<span class="brand-i" aria-hidden="true">ı</span>gnly</span> alert speaker</div>
+            </div>
+          </div>
+          <div class="ios-toggle on" onclick="toggleSwitch(this); showToast(5, 'Bluetooth permission toggled')"></div>
+        </div>
+
+        <div class="ui-card" style="display: flex; align-items: center; justify-content: space-between;">
+          <div style="display: flex; gap: 10px; align-items: center;">
+            <div style="width: 36px; height: 36px; border-radius: 10px; background: rgba(245,158,11,0.1); color: var(--amber); display: flex; align-items: center; justify-content: center;">
+              <svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:currentColor;"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2zm-2 1H8v-6c0-2.48 1.51-4.5 4-4.5s4 2.02 4 4.5v6z"/></svg>
+            </div>
+            <div>
+              <div style="font-size: 12.5px; font-weight: 700; color: var(--navy);">Push Notifications</div>
+              <div style="font-size: 11px; color: var(--text-soft);">Receive instant doorbell and SOS alerts</div>
+            </div>
+          </div>
+          <div class="ios-toggle on" onclick="toggleSwitch(this); showToast(5, 'Notification permission toggled')"></div>
+        </div>
+
+        <button class="btn-primary" onclick="scrollToSlot(6)">
+          <span>Enter Dashboard</span>
+          <svg viewBox="0 0 24 24" style="width:16px;height:16px;fill:currentColor;"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+        </button>
+      </div>
+      <div class="home-indicator"></div>
+    </div>
+  </div>
+
+  <!-- ==================== SCREEN 06: HOME & ASSISTIVE HUB ==================== -->
+  <div class="slot" data-category="core" id="slot-6">
+    <div class="slot-label-bar">
+      <div class="slot-label"><span class="badge">06</span><span>Home & Dashboard</span></div>
+      <button class="expand-btn" onclick="openZoomModal(6)">⛶ Zoom</button>
+    </div>
+    <div class="phone">
+      <div class="dynamic-island"><div class="island-cam"></div><div class="island-sensor"></div></div>
+      <div class="status-bar"><span>9:41</span><div class="status-icons"><svg viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9 0 2.12.74 4.07 1.97 5.61L4.35 18.4c-.39.39-.39 1.02 0 1.41.39.39 1.02.39 1.41 0l.85-.85C8.16 19.96 9.98 21 12 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm0 15c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6z"/></svg><svg viewBox="0 0 24 24"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg><svg viewBox="0 0 24 24"><path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z"/></svg></div></div>
+      
+      <div class="phone-content" style="padding-bottom: 74px; gap: 10px;">
+        <!-- Header Profile & Quick SOS -->
+        <div style="display: flex; align-items: center; justify-content: space-between;">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <div style="width: 38px; height: 38px; border-radius: 50%; overflow: hidden; border: 2px solid var(--teal);">
+              <img src="assets/avatar_fiza_hello.jpg" alt="Fiza" style="width: 100%; height: 100%; object-fit: cover; object-position: center 15%;">
+            </div>
+            <div>
+              <div style="font-size: 13px; font-weight: 800; color: var(--navy);">Good morning, Fiza 👋</div>
+              <div style="font-size: 10.5px; color: var(--text-soft);">Deaf • PSL Signer</div>
+            </div>
+          </div>
+          <!-- Large SOS Access button -->
+          <button class="emergency-pulse-btn" onclick="scrollToSlot(17); showToast(6, 'SOS Trigger activated')" style="background: var(--red); color: #fff; border: none; border-radius: 999px; padding: 6px 14px; font-size: 11px; font-weight: 800; display: flex; align-items: center; gap: 4px; cursor: pointer;">
+            <svg viewBox="0 0 24 24" style="width:14px;height:14px;fill:currentColor;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+            <span>SOS</span>
+          </button>
+        </div>
+
+        <!-- Hardware Device Bar -->
+        <div class="ui-card" style="padding: 10px 12px; background: #FFFFFF; border: 1.5px solid var(--line); box-shadow: var(--shadow-card); cursor: pointer;" onclick="scrollToSlot(11)">
+          <div style="display: flex; align-items: center; justify-content: space-between;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <div style="width: 28px; height: 28px; border-radius: 8px; background: rgba(0,176,144,0.12); color: var(--teal); display: flex; align-items: center; justify-content: center;">
+                <svg viewBox="0 0 24 24" style="width:16px;height:16px;fill:currentColor;"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
+              </div>
+              <div>
+                <div style="font-size: 11.5px; font-weight: 700; color: var(--navy);"><span class="signly-brand" aria-label="Signly">S<span class="brand-i" aria-hidden="true">ı</span>gnly</span> Alert Hub</div>
+                <div style="font-size: 10px; color: var(--teal); font-weight: 600;">Connected • 🔋 94% Battery</div>
+              </div>
+            </div>
+            <span style="font-size: 11px; color: var(--blue); font-weight: 700;">Manage →</span>
+          </div>
+        </div>
+
+        <!-- Recent Alert Banner -->
+        <div style="background: var(--amber-bg); border: 1px solid #FCD34D; border-radius: 14px; padding: 9px 12px; display: flex; align-items: center; justify-content: space-between; cursor: pointer;" onclick="scrollToSlot(16)">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span style="font-size: 16px;">🔔</span>
+            <div>
+              <div style="font-size: 11.5px; font-weight: 700; color: #92400E;">Front Doorbell Chime</div>
+              <div style="font-size: 10px; color: #B45309;">Sounded 4m ago on alert speaker</div>
+            </div>
+          </div>
+          <span style="font-size: 10.5px; font-weight: 800; color: #B45309;">View</span>
+        </div>
+
+        <!-- Primary CTA: Translate to Sign -->
+        <div class="ui-card" style="padding: 12px; border-left: 4px solid var(--blue); cursor: pointer;" onclick="scrollToSlot(7)">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <div>
+              <span style="font-size: 10px; font-weight: 800; color: var(--blue); text-transform: uppercase;">Quick Translate</span>
+              <div style="font-size: 14px; font-weight: 800; color: var(--navy); margin: 2px 0;">Translate to Sign</div>
+              <div style="font-size: 11px; color: var(--text-mid);">Type English → Watch 3D Avatar</div>
+            </div>
+            <div style="width: 44px; height: 44px; border-radius: 12px; overflow: hidden; border: 1px solid var(--line);">
+              <img src="assets/avatar_fiza_signing.jpg" alt="Avatar" style="width: 100%; height: 100%; object-fit: cover; object-position: center 25%;">
+            </div>
+          </div>
+        </div>
+
+        <!-- Secondary CTA: Sign to Text -->
+        <div class="ui-card" style="padding: 12px; border-left: 4px solid var(--teal); cursor: pointer;" onclick="scrollToSlot(8)">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+              <span style="font-size: 10px; font-weight: 800; color: var(--teal); text-transform: uppercase;">Camera Detection</span>
+              <div style="font-size: 14px; font-weight: 800; color: var(--navy); margin: 2px 0;">Sign to Text</div>
+              <div style="font-size: 11px; color: var(--text-mid);">Point camera → Convert to English text</div>
+            </div>
+            <div style="width: 36px; height: 36px; border-radius: 10px; background: rgba(0,176,144,0.1); color: var(--teal); display: flex; align-items: center; justify-content: center;">
+              <svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:currentColor;"><path d="M9 2L7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2H9zm3 15c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z"/></svg>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5-Tab Fixed Bottom Nav -->
+      <div class="phone-nav-fixed">
+        <div class="nav-item active" onclick="scrollToSlot(6)"><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg><span>Home</span></div>
+        <div class="nav-item" onclick="scrollToSlot(7)"><svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg><span>Translate</span></div>
+        <div class="nav-item" onclick="scrollToSlot(11)"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg><span>Speaker</span></div>
+        <div class="nav-item" onclick="scrollToSlot(16)"><svg viewBox="0 0 24 24"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2zm-2 1H8v-6c0-2.48 1.51-4.5 4-4.5s4 2.02 4 4.5v6z"/></svg><span>Alerts</span></div>
+        <div class="nav-item" onclick="scrollToSlot(18)"><svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg><span>Profile</span></div>
+      </div>
+      <div class="home-indicator"></div>
+    </div>
+  </div>
+
+  <!-- ==================== SCREEN 07: TEXT TO SIGN (PREVIOUS CLEAN LAYOUT) ==================== -->
+  <div class="slot" data-category="core" id="slot-7">
+    <div class="slot-label-bar">
+      <div class="slot-label"><span class="badge">07</span><span>Text to Sign</span></div>
+      <button class="expand-btn" onclick="openZoomModal(7)">⛶ Zoom</button>
+    </div>
+    <div class="phone">
+      <div class="dynamic-island"><div class="island-cam"></div><div class="island-sensor"></div></div>
+      <div class="status-bar"><span>9:41</span><div class="status-icons"><svg viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9 0 2.12.74 4.07 1.97 5.61L4.35 18.4c-.39.39-.39 1.02 0 1.41.39.39 1.02.39 1.41 0l.85-.85C8.16 19.96 9.98 21 12 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm0 15c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6z"/></svg><svg viewBox="0 0 24 24"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg><svg viewBox="0 0 24 24"><path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z"/></svg></div></div>
+      
+      <div class="phone-header-fixed">
+        <h2>Text to Sign</h2>
+        <button class="icon-circle-btn" onclick="scrollToSlot(10)"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
+      </div>
+
+      <div class="phone-content" style="padding-bottom: 74px; gap: 12px;">
+        <!-- Clean Input Box -->
+        <div class="ui-card" style="padding: 12px;">
+          <div style="font-size: 11px; font-weight: 700; color: var(--text-soft); text-transform: uppercase; margin-bottom: 6px;">Enter Text to Translate</div>
+          <div style="display: flex; gap: 8px; align-items: center;">
+            <input type="text" id="t2s-input" value="Mother" style="flex: 1; border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; outline: none; font-family: inherit; font-size: 14px; font-weight: 700; color: var(--navy); background: var(--surface-alt);" placeholder="Type any word or phrase...">
+            <button onclick="handleConvertT2S()" style="background: var(--blue); color: #fff; border: none; border-radius: 10px; padding: 10px 16px; font-size: 12px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 12px rgba(37,99,235,0.3);">Translate</button>
+          </div>
+        </div>
+
+        <!-- 3D Avatar Viewport -->
+        <div style="position: relative; width: 100%; height: 230px; border-radius: 20px; overflow: hidden; background: #0B1220; border: 1px solid var(--line); box-shadow: var(--shadow-card);">
+          <img id="t2s-avatar-img" src="assets/avatar_fiza_signing.jpg" alt="PSL Avatar" style="width: 100%; height: 100%; object-fit: cover; object-position: center 20%;">
+          <div style="position: absolute; top: 10px; left: 10px; background: rgba(0,0,0,0.6); backdrop-filter: blur(8px); padding: 4px 10px; border-radius: 8px; color: #fff;">
+            <span id="t2s-sign-badge" style="font-size: 12px; font-weight: 800; color: var(--teal-glow);">Sign: "Mother"</span>
+          </div>
+          <div style="position: absolute; top: 10px; right: 10px; background: rgba(0,176,144,0.85); color: #fff; font-size: 9.5px; font-weight: 700; padding: 3px 8px; border-radius: 6px;">
+            3D Avatar
+          </div>
+
+          <!-- Bottom Play Bar -->
+          <div style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(180deg, transparent 0%, rgba(11,18,32,0.9) 100%); padding: 8px 12px; display: flex; align-items: center; justify-content: space-between;">
+            <button onclick="playChime('chime'); showToast(7, 'Playing sign animation')" style="background: var(--teal); color: #fff; border: none; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer;"><svg viewBox="0 0 24 24" style="width:14px;height:14px;fill:currentColor;"><path d="M8 5v14l11-7z"/></svg></button>
+            <div style="flex: 1; margin: 0 10px; height: 4px; background: rgba(255,255,255,0.3); border-radius: 2px;">
+              <div style="width: 70%; height: 100%; background: var(--teal); border-radius: 2px;"></div>
+            </div>
+            <span style="font-size: 10px; color: #fff; font-weight: 700;">0:02 / 0:04s</span>
+          </div>
+        </div>
+
+        <!-- Translation Result Card -->
+        <div class="ui-card" style="padding: 12px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <span style="font-size: 11px; font-weight: 700; color: var(--text-soft);">TRANSLATED SIGN</span>
+            <span style="font-size: 10px; color: var(--teal); font-weight: 800; background: rgba(0,176,144,0.1); padding: 2px 8px; border-radius: 6px;">Verified • 98% Match</span>
+          </div>
+          <div style="font-size: 22px; font-weight: 800; color: var(--navy); margin-bottom: 10px;" id="t2s-card-title">"Mother"</div>
+          
+          <div style="display: flex; gap: 8px;">
+            <button class="btn-primary" style="flex: 1; padding: 10px; font-size: 12px;" onclick="playChime('chime'); showToast(7, 'Playing sign animation')">
+              <svg viewBox="0 0 24 24" style="width:14px;height:14px;fill:currentColor;"><path d="M8 5v14l11-7z"/></svg>
+              <span>Play Sign</span>
+            </button>
+            <button style="background: var(--surface-alt); border: 1px solid var(--line); border-radius: 12px; padding: 10px 14px; font-size: 12px; font-weight: 700; color: var(--navy); cursor: pointer; display: flex; align-items: center; gap: 4px;" onclick="speakText(document.getElementById('t2s-input').value); showToast(7, 'Speaking aloud')">
+              <svg viewBox="0 0 24 24" style="width:14px;height:14px;fill:currentColor;"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
+              <span>Speak</span>
+            </button>
+            <button style="background: var(--surface-alt); border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; font-size: 12px; font-weight: 700; color: var(--navy); cursor: pointer;" onclick="showToast(7, 'Sign saved to favorites')">
+              ⭐
+            </button>
+          </div>
+        </div>
+
+        <!-- Quick Phrases -->
+        <div>
+          <div style="font-size: 11px; font-weight: 700; color: var(--text-soft); text-transform: uppercase; margin-bottom: 6px;">Quick Phrases</div>
+          <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+            <button onclick="setT2SQuick('Hello')" style="background: var(--surface); border: 1px solid var(--line); border-radius: 999px; padding: 5px 12px; font-size: 11px; font-weight: 700; color: var(--navy); cursor: pointer;">Hello</button>
+            <button onclick="setT2SQuick('Thank you')" style="background: var(--surface); border: 1px solid var(--line); border-radius: 999px; padding: 5px 12px; font-size: 11px; font-weight: 700; color: var(--navy); cursor: pointer;">Thank you</button>
+            <button onclick="setT2SQuick('Help')" style="background: var(--surface); border: 1px solid var(--line); border-radius: 999px; padding: 5px 12px; font-size: 11px; font-weight: 700; color: var(--navy); cursor: pointer;">Help</button>
+            <button onclick="setT2SQuick('Family')" style="background: var(--surface); border: 1px solid var(--line); border-radius: 999px; padding: 5px 12px; font-size: 11px; font-weight: 700; color: var(--navy); cursor: pointer;">Family</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="phone-nav-fixed">
+        <div class="nav-item" onclick="scrollToSlot(6)"><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg><span>Home</span></div>
+        <div class="nav-item active" onclick="scrollToSlot(7)"><svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg><span>Translate</span></div>
+        <div class="nav-item" onclick="scrollToSlot(11)"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg><span>Speaker</span></div>
+        <div class="nav-item" onclick="scrollToSlot(16)"><svg viewBox="0 0 24 24"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2zm-2 1H8v-6c0-2.48 1.51-4.5 4-4.5s4 2.02 4 4.5v6z"/></svg><span>Alerts</span></div>
+        <div class="nav-item" onclick="scrollToSlot(18)"><svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg><span>Profile</span></div>
+      </div>
+      <div class="home-indicator"></div>
+    </div>
+  </div>
+
+  <!-- ==================== SCREEN 08: SIGN-TO-TEXT CAMERA SCANNER ==================== -->
+  <div class="slot" data-category="core" id="slot-8">
+    <div class="slot-label-bar">
+      <div class="slot-label"><span class="badge">08</span><span>Sign-to-Text Camera</span></div>
+      <button class="expand-btn" onclick="openZoomModal(8)">⛶ Zoom</button>
+    </div>
+    <div class="phone dark-theme">
+      <div class="dynamic-island"><div class="island-cam"></div><div class="island-sensor"></div></div>
+      <div class="status-bar"><span>9:41</span><div class="status-icons"><svg viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9 0 2.12.74 4.07 1.97 5.61L4.35 18.4c-.39.39-.39 1.02 0 1.41.39.39 1.02.39 1.41 0l.85-.85C8.16 19.96 9.98 21 12 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm0 15c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6z"/></svg><svg viewBox="0 0 24 24"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg><svg viewBox="0 0 24 24"><path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z"/></svg></div></div>
+      
+      <div class="phone-header-fixed">
+        <h2>Sign to Text</h2>
+        <div style="display:flex; gap:6px;">
+          <button class="icon-circle-btn" onclick="showToast(8, 'Flash toggled')"><svg viewBox="0 0 24 24"><path d="M7 2v11h3v9l7-12h-4l4-8z"/></svg></button>
+          <button class="icon-circle-btn" onclick="showToast(8, 'Camera switched')"><svg viewBox="0 0 24 24"><path d="M20 4h-3.17L15 2H9L7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm-5 11.5V13H9v2.5L5.5 12 9 8.5V11h6V8.5l3.5 3.5-3.5 3.5z"/></svg></button>
+        </div>
+      </div>
+
+      <div class="phone-content" style="padding-bottom: 74px; gap: 10px;">
+        <!-- Camera Viewport with Landmarks & Positioning Guide -->
+        <div style="position: relative; width: 100%; height: 260px; border-radius: 20px; overflow: hidden; background: #162238; border: 1px solid rgba(255,255,255,0.15);">
+          <img src="assets/avatar_fiza_signing.jpg" alt="Signer Camera" style="width: 100%; height: 100%; object-fit: cover; object-position: center 25%; filter: brightness(0.92);">
+          
+          <!-- Silhouette / Positioning Guide Overlay -->
+          <div style="position: absolute; inset: 16px; border: 1.5px dashed rgba(0,196,159,0.5); border-radius: 16px; pointer-events: none; display: flex; flex-direction: column; align-items: center; justify-content: space-between; padding: 10px;">
+            <div style="font-size: 9.5px; color: var(--teal-light); background: rgba(0,0,0,0.6); padding: 2px 8px; border-radius: 4px;">
+              Position hands within guide frame
+            </div>
+            <!-- Hand Landmarks Tracking Graphic -->
+            <svg viewBox="0 0 100 100" style="position: absolute; inset: 0; width: 100%; height: 100%; stroke: var(--teal-glow); stroke-width: 1.2; fill: none;">
+              <circle cx="45" cy="50" r="2" fill="#00C49F"/>
+              <circle cx="55" cy="50" r="2" fill="#00C49F"/>
+              <circle cx="40" cy="60" r="2" fill="#00C49F"/>
+              <circle cx="60" cy="60" r="2" fill="#00C49F"/>
+              <circle cx="50" cy="70" r="2.5" fill="#3B82F6"/>
+              <line x1="45" y1="50" x2="40" y2="60" stroke="#00C49F" stroke-dasharray="2,2"/>
+              <line x1="55" y1="50" x2="60" y2="60" stroke="#00C49F" stroke-dasharray="2,2"/>
+              <line x1="40" y1="60" x2="50" y2="70" stroke="#3B82F6"/>
+              <line x1="60" y1="60" x2="50" y2="70" stroke="#3B82F6"/>
+            </svg>
+            <div style="font-size: 9.5px; color: #5EEAD4; background: rgba(0,0,0,0.6); padding: 2px 8px; border-radius: 4px;">
+              🟢 Hand Tracking Active
+            </div>
+          </div>
+
+          <!-- Recognition Status -->
+          <div style="position: absolute; top: 8px; left: 8px; background: rgba(0,0,0,0.7); backdrop-filter: blur(6px); padding: 4px 10px; border-radius: 999px; display: flex; align-items: center; gap: 6px;">
+            <div style="width: 6px; height: 6px; border-radius: 50%; background: var(--green); box-shadow: 0 0 6px var(--green);"></div>
+            <span style="font-size: 10px; font-weight: 700; color: #fff;">LIVE: 98% Match</span>
+          </div>
+        </div>
+
+        <!-- Detected Sign Card: Clean English Only -->
+        <div class="ui-card" style="padding: 12px; background: #162238; border-color: rgba(255,255,255,0.12);">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+            <span style="font-size: 10px; font-weight: 800; color: var(--teal-glow); text-transform: uppercase;">Detected Sign</span>
+            <span style="font-size: 10px; color: #94A3B8;"><span class="signly-brand signly-brand-light" aria-label="Signly">S<span class="brand-i" aria-hidden="true">ı</span>gnly</span> AI</span>
+          </div>
+
+          <div style="background: rgba(0,0,0,0.3); padding: 12px 14px; border-radius: 12px; margin-bottom: 10px;">
+            <div style="font-size: 10px; color: #94A3B8; font-weight: 700; text-transform: uppercase;">English Translation</div>
+            <div style="font-size: 24px; font-weight: 800; color: #FFFFFF; margin-top: 2px;">"Mother"</div>
+            <div style="font-size: 11px; color: var(--teal-light); margin-top: 2px;">Confidence: 98% • Verified Sign</div>
+          </div>
+
+          <!-- Controls: Speak & Retry -->
+          <div style="display: flex; gap: 8px;">
+            <button onclick="speakText('Mother'); showToast(8, 'Speaking English text aloud')" style="flex: 1; background: var(--blue); color: #fff; border: none; border-radius: 10px; padding: 10px; font-size: 12px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px;">
+              <svg viewBox="0 0 24 24" style="width:14px;height:14px;fill:currentColor;"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
+              <span>Speak Aloud</span>
+            </button>
+            <button onclick="showToast(8, 'Detection scanner refreshed')" style="background: rgba(255,255,255,0.12); color: #fff; border: none; border-radius: 10px; padding: 10px 14px; font-size: 12px; font-weight: 700; cursor: pointer;">
+              Retry
+            </button>
+          </div>
+        </div>
+
+        <!-- Recent Signs Tray (English Only) -->
+        <div style="display: flex; align-items: center; justify-content: space-between; font-size: 10.5px; color: #94A3B8; padding: 0 4px;">
+          <span>Recent: "Father", "Help", "Come", "Thank You"</span>
+          <span style="color: var(--teal-glow); cursor: pointer;" onclick="scrollToSlot(19)">All Logs →</span>
+        </div>
+      </div>
+
+      <div class="phone-nav-fixed">
+        <div class="nav-item" onclick="scrollToSlot(6)"><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg><span>Home</span></div>
+        <div class="nav-item active" onclick="scrollToSlot(7)"><svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg><span>Translate</span></div>
+        <div class="nav-item" onclick="scrollToSlot(11)"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg><span>Speaker</span></div>
+        <div class="nav-item" onclick="scrollToSlot(16)"><svg viewBox="0 0 24 24"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2zm-2 1H8v-6c0-2.48 1.51-4.5 4-4.5s4 2.02 4 4.5v6z"/></svg><span>Alerts</span></div>
+        <div class="nav-item" onclick="scrollToSlot(18)"><svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg><span>Profile</span></div>
+      </div>
+      <div class="home-indicator"></div>
+    </div>
+  </div>
+
+  <!-- ==================== SCREEN 09: CONVERSATION (TWO-WAY CHAT) ==================== -->
+  <div class="slot" data-category="core" id="slot-9">
+    <div class="slot-label-bar">
+      <div class="slot-label"><span class="badge">09</span><span>Two-Way Conversation</span></div>
+      <button class="expand-btn" onclick="openZoomModal(9)">⛶ Zoom</button>
+    </div>
+    <div class="phone">
+      <div class="dynamic-island"><div class="island-cam"></div><div class="island-sensor"></div></div>
+      <div class="status-bar"><span>9:41</span><div class="status-icons"><svg viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9 0 2.12.74 4.07 1.97 5.61L4.35 18.4c-.39.39-.39 1.02 0 1.41.39.39 1.02.39 1.41 0l.85-.85C8.16 19.96 9.98 21 12 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm0 15c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6z"/></svg><svg viewBox="0 0 24 24"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg><svg viewBox="0 0 24 24"><path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z"/></svg></div></div>
+      
+      <div class="phone-header-fixed">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <div style="width: 32px; height: 32px; border-radius: 50%; overflow: hidden;">
+            <img src="assets/avatar_alex.jpg" alt="Alex" style="width: 100%; height: 100%; object-fit: cover;">
+          </div>
+          <div>
+            <div style="font-size: 13px; font-weight: 800; color: var(--navy);">Alex Chen</div>
+            <div style="font-size: 10px; color: var(--green); font-weight: 700;">● Active (Hearing User)</div>
+          </div>
+        </div>
+        <button class="icon-circle-btn" onclick="showToast(9, 'Video call initiated')"><svg viewBox="0 0 24 24"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/></svg></button>
+      </div>
+
+      <div class="phone-content" id="chat-stream" style="padding-bottom: 84px; gap: 10px;">
+        <!-- Hearing User message -->
+        <div style="display: flex; flex-direction: column; align-items: flex-start; max-width: 82%;">
+          <div style="background: var(--surface); border: 1px solid var(--line); border-radius: 14px 14px 14px 2px; padding: 9px 12px; box-shadow: var(--shadow-card);">
+            <div style="font-size: 12px; color: var(--navy); line-height: 1.4;">"Hi Fiza! Will you and your mother join us tonight?"</div>
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 4px;">
+              <span style="font-size: 9.5px; color: var(--text-soft);">Alex • Voice Input • 03:20 PM</span>
+              <button onclick="speakText('Hi Fiza! Will you and your mother join us tonight?')" style="background:none; border:none; color:var(--blue); cursor:pointer; padding:0 2px;"><svg viewBox="0 0 24 24" style="width:12px;height:12px;fill:currentColor;"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg></button>
+            </div>
+          </div>
+        </div>
+
+        <!-- PSL Signer message: Clean English Subtitle -->
+        <div style="display: flex; flex-direction: column; align-items: flex-end; width: 100%;">
+          <div style="background: var(--blue); color: #fff; border-radius: 14px 14px 2px 14px; padding: 10px; max-width: 86%; box-shadow: 0 4px 14px rgba(37,99,235,0.25);">
+            <div style="display: flex; gap: 8px; align-items: center; margin-bottom: 6px;">
+              <div style="width: 36px; height: 36px; border-radius: 8px; overflow: hidden; border: 1.5px solid rgba(255,255,255,0.4);">
+                <img src="assets/avatar_fiza_signing.jpg" alt="Fiza Sign" style="width: 100%; height: 100%; object-fit: cover; object-position: center 25%;">
+              </div>
+              <div>
+                <div style="font-size: 11px; font-weight: 800; color: #5EEAD4;">3D Sign Message</div>
+                <div style="font-size: 9.5px; opacity: 0.9;">Sign: "Yes, Mother is coming"</div>
+              </div>
+            </div>
+            <div style="font-size: 11.5px; line-height: 1.35; background: rgba(0,0,0,0.15); padding: 6px 8px; border-radius: 6px;">
+              "Yes, mother is coming with me"
+            </div>
+            <span style="font-size: 9px; opacity: 0.7; display: block; text-align: right; margin-top: 4px;">Fiza • 3D Avatar Clip • 03:22 PM</span>
+          </div>
+        </div>
+
+        <!-- Simulated Response Container -->
+        <div id="dynamic-chat-messages"></div>
+      </div>
+
+      <!-- Live Typing & Sign Suggestions Bar (English Only) -->
+      <div style="position: absolute; bottom: 0; left: 0; right: 0; background: var(--surface); border-top: 1px solid var(--line); padding: 8px 12px 20px; z-index: 50;">
+        <div style="display: flex; gap: 4px; overflow-x: auto; margin-bottom: 6px; padding-bottom: 2px;">
+          <button onclick="insertQuickSign('Help')" style="background: var(--surface-alt); border: 1px solid var(--line); border-radius: 999px; padding: 3px 10px; font-size: 10.5px; font-weight: 700; color: var(--navy); cursor: pointer; white-space: nowrap;">+ Help</button>
+          <button onclick="insertQuickSign('Mother')" style="background: var(--surface-alt); border: 1px solid var(--line); border-radius: 999px; padding: 3px 10px; font-size: 10.5px; font-weight: 700; color: var(--navy); cursor: pointer; white-space: nowrap;">+ Mother</button>
+          <button onclick="insertQuickSign('Come')" style="background: var(--surface-alt); border: 1px solid var(--line); border-radius: 999px; padding: 3px 10px; font-size: 10.5px; font-weight: 700; color: var(--navy); cursor: pointer; white-space: nowrap;">+ Come</button>
+          <button onclick="insertQuickSign('Thank You')" style="background: var(--surface-alt); border: 1px solid var(--line); border-radius: 999px; padding: 3px 10px; font-size: 10.5px; font-weight: 700; color: var(--navy); cursor: pointer; white-space: nowrap;">+ Thank You</button>
+        </div>
+        <div style="display: flex; gap: 6px; align-items: center;">
+          <input type="text" id="chat-text-input" placeholder="Type a message or sign phrase..." style="flex: 1; border: 1px solid var(--line); border-radius: 999px; padding: 7px 12px; font-size: 12px; outline: none; background: var(--surface-alt);" onkeypress="if(event.key==='Enter') sendChatMessage()">
+          <button onclick="sendChatMessage()" style="width: 32px; height: 32px; border-radius: 50%; background: var(--blue); color: #fff; border: none; display: flex; align-items: center; justify-content: center; cursor: pointer;">
+            <svg viewBox="0 0 24 24" style="width:16px;height:16px;fill:currentColor;"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="home-indicator"></div>
+    </div>
+  </div>
+
+  <!-- ==================== SCREEN 10: AVATAR PLAYER ==================== -->
+  <div class="slot" data-category="core" id="slot-10">
+    <div class="slot-label-bar">
+      <div class="slot-label"><span class="badge">10</span><span>3D Avatar Video Player</span></div>
+      <button class="expand-btn" onclick="openZoomModal(10)">⛶ Zoom</button>
+    </div>
+    <div class="phone dark-theme">
+      <div class="dynamic-island"><div class="island-cam"></div><div class="island-sensor"></div></div>
+      <div class="status-bar"><span>9:41</span><div class="status-icons"><svg viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9 0 2.12.74 4.07 1.97 5.61L4.35 18.4c-.39.39-.39 1.02 0 1.41.39.39 1.02.39 1.41 0l.85-.85C8.16 19.96 9.98 21 12 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm0 15c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6z"/></svg><svg viewBox="0 0 24 24"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg><svg viewBox="0 0 24 24"><path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z"/></svg></div></div>
+      
+      <div class="phone-header-fixed">
+        <h2>Avatar Player</h2>
+        <span style="font-size: 11px; background: rgba(0,196,159,0.2); color: var(--teal-glow); padding: 3px 8px; border-radius: 6px; font-weight: 700;">3D Sign</span>
+      </div>
+
+      <div class="phone-content" style="padding-bottom: 74px; gap: 10px;">
+        <!-- Dedicated 3D Avatar Viewport -->
+        <div style="position: relative; width: 100%; height: 290px; border-radius: 20px; overflow: hidden; background: radial-gradient(circle at 50% 40%, #1E2A44 0%, #0B1220 100%); border: 1px solid rgba(255,255,255,0.15);">
+          <img src="assets/avatar_fiza_help.jpg" alt="3D Avatar Full" style="width: 100%; height: 100%; object-fit: cover; object-position: center 25%;">
+          
+          <div style="position: absolute; top: 10px; left: 10px; background: rgba(0,0,0,0.65); backdrop-filter: blur(8px); padding: 4px 10px; border-radius: 8px;">
+            <div style="font-size: 12px; font-weight: 800; color: #5EEAD4;">HELP</div>
+            <div style="font-size: 9.5px; color: #94A3B8;">Verified Sign</div>
+          </div>
+
+          <div style="position: absolute; top: 10px; right: 10px; background: rgba(37,99,235,0.85); color: #fff; font-size: 9px; font-weight: 700; padding: 3px 8px; border-radius: 6px;">
+            Verified Motion
+          </div>
+
+          <!-- Scrubbable Timeline -->
+          <div style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(180deg, transparent 0%, rgba(11,18,32,0.95) 100%); padding: 10px 14px;">
+            <div style="display: flex; justify-content: space-between; font-size: 10px; color: #94A3B8; margin-bottom: 4px;">
+              <span>0:01.8</span>
+              <span>0:03.2</span>
+            </div>
+            <div style="width: 100%; height: 5px; background: rgba(255,255,255,0.25); border-radius: 3px; position: relative;">
+              <div style="width: 56%; height: 100%; background: var(--teal-glow); border-radius: 3px;"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Playback Controls -->
+        <div style="display: flex; align-items: center; justify-content: center; gap: 16px; margin: 4px 0;">
+          <button onclick="showToast(10, 'Rewound 2 seconds')" style="background: rgba(255,255,255,0.1); color: #fff; border: none; width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer;">
+            <svg viewBox="0 0 24 24" style="width:16px;height:16px;fill:currentColor;"><path d="M11 18V6l-8.5 6 8.5 6zm.5-6l8.5 6V6l-8.5 6z"/></svg>
+          </button>
+          <button onclick="playChime('chime'); showToast(10, 'Playing avatar clip')" style="background: var(--teal); color: #fff; border: none; width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 14px rgba(0,196,159,0.4);">
+            <svg viewBox="0 0 24 24" style="width:22px;height:22px;fill:currentColor;"><path d="M8 5v14l11-7z"/></svg>
+          </button>
+          <button onclick="showToast(10, 'Fast forward 2 seconds')" style="background: rgba(255,255,255,0.1); color: #fff; border: none; width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer;">
+            <svg viewBox="0 0 24 24" style="width:16px;height:16px;fill:currentColor;"><path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z"/></svg>
+          </button>
+        </div>
+
+        <!-- Speed Selector -->
+        <div style="display: flex; justify-content: center; gap: 8px;">
+          <button class="filter-chip" style="padding: 4px 12px; font-size: 11px;" onclick="showToast(10, 'Playback speed: 0.5x Slow')">0.5x</button>
+          <button class="filter-chip active" style="padding: 4px 12px; font-size: 11px;" onclick="showToast(10, 'Playback speed: 1.0x Normal')">1.0x</button>
+          <button class="filter-chip" style="padding: 4px 12px; font-size: 11px;" onclick="showToast(10, 'Playback speed: 1.5x Fast')">1.5x</button>
+        </div>
+
+        <div style="background: rgba(255,255,255,0.06); border-radius: 12px; padding: 8px 12px; font-size: 11px; color: #94A3B8; text-align: center;">
+          High-Fidelity 3D Avatar • Natural Gesture Playback
+        </div>
+      </div>
+
+      <div class="phone-nav-fixed">
+        <div class="nav-item" onclick="scrollToSlot(6)"><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg><span>Home</span></div>
+        <div class="nav-item active" onclick="scrollToSlot(7)"><svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg><span>Translate</span></div>
+        <div class="nav-item" onclick="scrollToSlot(11)"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg><span>Speaker</span></div>
+        <div class="nav-item" onclick="scrollToSlot(16)"><svg viewBox="0 0 24 24"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2zm-2 1H8v-6c0-2.48 1.51-4.5 4-4.5s4 2.02 4 4.5v6z"/></svg><span>Alerts</span></div>
+        <div class="nav-item" onclick="scrollToSlot(18)"><svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg><span>Profile</span></div>
+      </div>
+      <div class="home-indicator"></div>
+    </div>
+  </div>
+
+  <!-- ==================== SCREEN 11: DEVICE DASHBOARD (SMART HARDWARE) ==================== -->
+  <div class="slot" data-category="hardware" id="slot-11">
+    <div class="slot-label-bar">
+      <div class="slot-label"><span class="badge">11</span><span>Device Dashboard</span></div>
+      <button class="expand-btn" onclick="openZoomModal(11)">⛶ Zoom</button>
+    </div>
+    <div class="phone">
+      <div class="dynamic-island"><div class="island-cam"></div><div class="island-sensor"></div></div>
+      <div class="status-bar"><span>9:41</span><div class="status-icons"><svg viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9 0 2.12.74 4.07 1.97 5.61L4.35 18.4c-.39.39-.39 1.02 0 1.41.39.39 1.02.39 1.41 0l.85-.85C8.16 19.96 9.98 21 12 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm0 15c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6z"/></svg><svg viewBox="0 0 24 24"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg><svg viewBox="0 0 24 24"><path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z"/></svg></div></div>
+      
+      <div class="phone-header-fixed">
+        <h2>Smart Hardware</h2>
+        <button class="icon-circle-btn" onclick="scrollToSlot(12)"><svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg></button>
+      </div>
+
+      <div class="phone-content" style="padding-bottom: 74px; gap: 12px;">
+        <!-- Paired Hardware Status Card -->
+        <div class="ui-card" style="padding: 14px; background: #FFFFFF; border: 1.5px solid var(--line); box-shadow: var(--shadow-card);">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <div style="display: flex; gap: 10px; align-items: center;">
+              <div style="width: 44px; height: 44px; border-radius: 12px; background: rgba(0,176,144,0.12); color: var(--teal); display: flex; align-items: center; justify-content: center;">
+                <svg viewBox="0 0 24 24" style="width:26px;height:26px;fill:currentColor;"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+              </div>
+              <div>
+                <div style="font-size: 14px; font-weight: 800; color: var(--navy);"><span class="signly-brand" aria-label="Signly">S<span class="brand-i" aria-hidden="true">ı</span>gnly</span> Alert Hub 01</div>
+                <div style="font-size: 11px; color: var(--teal); font-weight: 600;">Smart Alert Speaker</div>
+              </div>
+            </div>
+            <span style="font-size: 10px; background: rgba(34,197,94,0.15); color: #16A34A; padding: 3px 8px; border-radius: 6px; font-weight: 700;">CONNECTED</span>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; border-top: 1px solid var(--line); margin-top: 12px; padding-top: 10px;">
+            <div>
+              <div style="font-size: 10px; color: var(--text-soft);">BATTERY</div>
+              <div style="font-size: 13px; font-weight: 800; color: var(--navy);">🔋 88% (~22 hrs)</div>
+            </div>
+            <div>
+              <div style="font-size: 10px; color: var(--text-soft);">CONNECTION</div>
+              <div style="font-size: 13px; font-weight: 800; color: var(--navy);">📡 Strong Signal</div>
+            </div>
+            <div>
+              <div style="font-size: 10px; color: var(--text-soft);">SPEAKER</div>
+              <div style="font-size: 13px; font-weight: 800; color: var(--navy);">🔊 3W Chime</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Test Alert Button -->
+        <div class="ui-card" style="padding: 12px; text-align: center;">
+          <div style="font-size: 11.5px; color: var(--text-mid); margin-bottom: 8px;">
+            Test the physical speaker chime sound and LED alert:
+          </div>
+          <button class="btn-primary btn-teal" onclick="playChime('doorbell'); showToast(11, '🔊 Test Chime Broadcast to Alert Speaker (85dB)')">
+            <svg viewBox="0 0 24 24" style="width:18px;height:18px;fill:currentColor;"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
+            <span>Play Test Chime (85dB)</span>
+          </button>
+        </div>
+
+        <!-- Settings Quick Links -->
+        <div style="display: flex; flex-direction: column; gap: 8px;">
+          <div class="ui-card" style="display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; cursor: pointer;" onclick="scrollToSlot(14)">
+            <div style="display: flex; gap: 10px; align-items: center;">
+              <span style="font-size: 16px;">🔔</span>
+              <div>
+                <div style="font-size: 12.5px; font-weight: 700; color: var(--navy);">Alert Preferences</div>
+                <div style="font-size: 10.5px; color: var(--text-soft);">Doorbell, Name Call, Honk Alert</div>
+              </div>
+            </div>
+            <span style="font-size: 12px; color: var(--blue);">Configure →</span>
+          </div>
+
+          <div class="ui-card" style="display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; cursor: pointer;" onclick="scrollToSlot(15)">
+            <div style="display: flex; gap: 10px; align-items: center;">
+              <span style="font-size: 16px;">🚨</span>
+              <div>
+                <div style="font-size: 12.5px; font-weight: 700; color: var(--navy);">SOS Hardware Settings</div>
+                <div style="font-size: 10.5px; color: var(--text-soft);">Siren trigger, recipients, countdown window</div>
+              </div>
+            </div>
+            <span style="font-size: 12px; color: var(--red);">Configure →</span>
+          </div>
+
+          <div class="ui-card" style="display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; cursor: pointer;" onclick="scrollToSlot(12)">
+            <div style="display: flex; gap: 10px; align-items: center;">
+              <span style="font-size: 16px;">📡</span>
+              <div>
+                <div style="font-size: 12.5px; font-weight: 700; color: var(--navy);">Bluetooth Pairing</div>
+                <div style="font-size: 10.5px; color: var(--text-soft);">Pair new speakers or manage connections</div>
+              </div>
+            </div>
+            <span style="font-size: 12px; color: var(--blue);">Pair →</span>
+          </div>
+        </div>
+
+        <div style="font-size: 10.5px; color: var(--text-soft); text-align: center;">
+          Smart speaker for household alerts and emergency assistance.
+        </div>
+      </div>
+
+      <div class="phone-nav-fixed">
+        <div class="nav-item" onclick="scrollToSlot(6)"><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg><span>Home</span></div>
+        <div class="nav-item" onclick="scrollToSlot(7)"><svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg><span>Translate</span></div>
+        <div class="nav-item active" onclick="scrollToSlot(11)"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg><span>Speaker</span></div>
+        <div class="nav-item" onclick="scrollToSlot(16)"><svg viewBox="0 0 24 24"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2zm-2 1H8v-6c0-2.48 1.51-4.5 4-4.5s4 2.02 4 4.5v6z"/></svg><span>Alerts</span></div>
+        <div class="nav-item" onclick="scrollToSlot(18)"><svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg><span>Profile</span></div>
+      </div>
+      <div class="home-indicator"></div>
+    </div>
+  </div>
+
+  <!-- ==================== SCREEN 12: PAIR DEVICE ==================== -->
+  <div class="slot" data-category="hardware" id="slot-12">
+    <div class="slot-label-bar">
+      <div class="slot-label"><span class="badge">12</span><span>Bluetooth Device Pairing</span></div>
+      <button class="expand-btn" onclick="openZoomModal(12)">⛶ Zoom</button>
+    </div>
+    <div class="phone">
+      <div class="dynamic-island"><div class="island-cam"></div><div class="island-sensor"></div></div>
+      <div class="status-bar"><span>9:41</span><div class="status-icons"><svg viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9 0 2.12.74 4.07 1.97 5.61L4.35 18.4c-.39.39-.39 1.02 0 1.41.39.39 1.02.39 1.41 0l.85-.85C8.16 19.96 9.98 21 12 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm0 15c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6z"/></svg><svg viewBox="0 0 24 24"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg><svg viewBox="0 0 24 24"><path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z"/></svg></div></div>
+      
+      <div class="phone-header-fixed">
+        <h2>Pair Device</h2>
+        <button class="icon-circle-btn" onclick="scrollToSlot(11)"><svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></button>
+      </div>
+
+      <div class="phone-content" style="padding-bottom: 30px; gap: 12px;">
+        <!-- Radar Scanning Animation -->
+        <div style="position: relative; width: 100%; height: 160px; display: flex; align-items: center; justify-content: center;">
+          <div class="radar-ring" style="width: 80px; height: 80px; animation-delay: 0s;"></div>
+          <div class="radar-ring" style="width: 80px; height: 80px; animation-delay: 0.8s;"></div>
+          <div class="radar-ring" style="width: 80px; height: 80px; animation-delay: 1.6s;"></div>
+          <div style="width: 54px; height: 54px; border-radius: 50%; background: var(--blue); color: #fff; display: flex; align-items: center; justify-content: center; z-index: 10; box-shadow: 0 4px 16px rgba(37,99,235,0.4);">
+            <svg viewBox="0 0 24 24" style="width:28px;height:28px;fill:currentColor;"><path d="M17.71 7.71L12 2h-1v7.59L6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 11 14.41V22h1l5.71-5.71-4.3-4.29 4.3-4.29zM13 5.83l1.88 1.88L13 9.59V5.83zm1.88 10.46L13 18.17v-3.76l1.88 1.88z"/></svg>
+          </div>
+        </div>
+
+        <div style="text-align: center; margin-top: -6px;">
+          <div style="font-size: 13.5px; font-weight: 800; color: var(--navy);">Scanning for <span class="signly-brand" aria-label="Signly">S<span class="brand-i" aria-hidden="true">ı</span>gnly</span> Hardware...</div>
+          <div style="font-size: 11px; color: var(--text-soft);">Searching for nearby alert speakers...</div>
+        </div>
+
+        <!-- Discovered Devices List -->
+        <div style="display: flex; flex-direction: column; gap: 8px;">
+          <div class="ui-card" style="display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; border-color: var(--teal);">
+            <div style="display: flex; gap: 8px; align-items: center;">
+              <div style="width: 32px; height: 32px; border-radius: 8px; background: rgba(0,176,144,0.12); color: var(--teal); display: flex; align-items: center; justify-content: center;">
+                <svg viewBox="0 0 24 24" style="width:18px;height:18px;fill:currentColor;"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
+              </div>
+              <div>
+                <div style="font-size: 12px; font-weight: 700; color: var(--navy);"><span class="signly-brand" aria-label="Signly">S<span class="brand-i" aria-hidden="true">ı</span>gnly</span> Alert Hub 01</div>
+                <div style="font-size: 10px; color: var(--teal); font-weight: 700;">Connected • Strong Signal</div>
+              </div>
+            </div>
+            <button onclick="showToast(12, 'Device unpair requested')" style="background: rgba(239,68,68,0.1); color: var(--red); border: none; border-radius: 6px; padding: 4px 8px; font-size: 10.5px; font-weight: 700; cursor: pointer;">
+              Unpair
+            </button>
+          </div>
+
+          <div class="ui-card" style="display: flex; align-items: center; justify-content: space-between; padding: 10px 12px;">
+            <div style="display: flex; gap: 8px; align-items: center;">
+              <div style="width: 32px; height: 32px; border-radius: 8px; background: var(--surface-alt); color: var(--text-mid); display: flex; align-items: center; justify-content: center;">
+                <svg viewBox="0 0 24 24" style="width:18px;height:18px;fill:currentColor;"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
+              </div>
+              <div>
+                <div style="font-size: 12px; font-weight: 700; color: var(--navy);"><span class="signly-brand" aria-label="Signly">S<span class="brand-i" aria-hidden="true">ı</span>gnly</span> Speaker 02</div>
+                <div style="font-size: 10px; color: var(--text-soft);">Available • Tap to connect</div>
+              </div>
+            </div>
+            <button onclick="showToast(12, 'Pairing with Signly Speaker 02...')" style="background: var(--blue); color: #fff; border: none; border-radius: 6px; padding: 4px 10px; font-size: 10.5px; font-weight: 700; cursor: pointer;">
+              Pair
+            </button>
+          </div>
+        </div>
+
+        <div class="notice-banner" style="background: var(--surface-alt); border-color: var(--line); color: var(--text-mid);">
+          <svg viewBox="0 0 24 24" style="fill:var(--text-soft);"><path d="M11 18h2v-2h-2v2zm1-16C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z"/></svg>
+          <div>
+            <strong>Pairing Tips:</strong>
+            Make sure the speaker is charged, turned on, and within 10 meters of your phone.
+          </div>
+        </div>
+      </div>
+      <div class="home-indicator"></div>
+    </div>
+  </div>
+
+  <!-- ==================== SCREEN 13: EMERGENCY CONTACTS & ROLES ==================== -->
+ <div class="slot" data-category="people" id="slot-13">
+ <div class="slot-label-bar">
+ <div class="slot-label"><span class="badge">13</span><span>Emergency Contacts</span></div>
+ <button class="expand-btn" onclick="openZoomModal(13)">⛶ Zoom</button>
+ </div>
+ <div class="phone">
+ <div class="dynamic-island"><div class="island-cam"></div><div class="island-sensor"></div></div>
+ <div class="status-bar"><span>9:41</span><div class="status-icons"><svg viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9 0 2.12.74 4.07 1.97 5.61L4.35 18.4c-.39.39-.39 1.02 0 1.41.39.39 1.02.39 1.41 0l.85-.85C8.16 19.96 9.98 21 12 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm0 15c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6z"/></svg><svg viewBox="0 0 24 24"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg><svg viewBox="0 0 24 24"><path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z"/></svg></div></div>
+ 
+ <div class="phone-header-fixed">
+ <h2>Emergency Contacts</h2>
+ <button class="icon-circle-btn" onclick="showToast(13, 'Add new contact form opened')"><svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg></button>
+ </div>
+
+ <div class="phone-content" style="padding-bottom: 74px; gap: 10px;">
+ <div style="font-size: 11.5px; color: var(--text-mid); line-height: 1.4;">
+ Manage assigned roles for alert notifications and emergency SOS dispatch :
+ </div>
+
+ <!-- Alex Chen: SOS Priority 1 -->
+ <div class="ui-card" style="padding: 10px 12px; display: flex; align-items: center; justify-content: space-between;">
+ <div style="display: flex; gap: 10px; align-items: center;">
+ <div style="width: 38px; height: 38px; border-radius: 50%; overflow: hidden; border: 2px solid var(--red);">
+ <img src="assets/avatar_alex.jpg" alt="Alex" style="width: 100%; height: 100%; object-fit: cover;">
+ </div>
+ <div>
+ <div style="display: flex; align-items: center; gap: 6px;">
+ <span style="font-size: 12.5px; font-weight: 800; color: var(--navy);">Alex Chen</span>
+ <span style="font-size: 9px; background: rgba(239,68,68,0.15); color: var(--red); font-weight: 800; padding: 1px 6px; border-radius: 4px;">SOS #1</span>
+ </div>
+ <div style="font-size: 10.5px; color: var(--text-soft);">Role: Family • +92 300 1234567</div>
+ </div>
+ </div>
+ <button class="icon-circle-btn" onclick="showToast(13, 'Calling Alex Chen...')"><svg viewBox="0 0 24 24"><path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56a.977.977 0 00-1.01.24l-2.2 2.2a15.05 15.05 0 01-6.59-6.59l2.2-2.21a.96.96 0 00.25-1A11.36 11.36 0 018.5 3.99c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1 0 9.39 7.61 17 17 17 .55 0 1-.45 1-1v-3.5c0-.55-.45-1-1-1z"/></svg></button>
+ </div>
+
+ <!-- Sarah Jenkins: Certified Interpreter -->
+ <div class="ui-card" style="padding: 10px 12px; display: flex; align-items: center; justify-content: space-between;">
+ <div style="display: flex; gap: 10px; align-items: center;">
+ <div style="width: 38px; height: 38px; border-radius: 50%; overflow: hidden; border: 2px solid var(--teal);">
+ <img src="assets/avatar_sarah.jpg" alt="Sarah" style="width: 100%; height: 100%; object-fit: cover;">
+ </div>
+ <div>
+ <div style="display: flex; align-items: center; gap: 6px;">
+ <span style="font-size: 12.5px; font-weight: 800; color: var(--navy);">Sarah Jenkins</span>
+ <span style="font-size: 9px; background: rgba(0,176,144,0.15); color: var(--teal); font-weight: 800; padding: 1px 6px; border-radius: 4px;">Interpreter</span>
+ </div>
+ <div style="font-size: 10.5px; color: var(--text-soft);">PSL Certified • +92 321 9876543</div>
+ </div>
+ </div>
+ <button class="icon-circle-btn" onclick="showToast(13, 'Video call initiated with Sarah Jenkins')"><svg viewBox="0 0 24 24"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/></svg></button>
+ </div>
+
+ <!-- Marcus Vance: Neighbor -->
+ <div class="ui-card" style="padding: 10px 12px; display: flex; align-items: center; justify-content: space-between;">
+ <div style="display: flex; gap: 10px; align-items: center;">
+ <div style="width: 38px; height: 38px; border-radius: 50%; overflow: hidden; border: 2px solid var(--blue);">
+ <img src="assets/avatar_marcus.jpg" alt="Marcus" style="width: 100%; height: 100%; object-fit: cover;">
+ </div>
+ <div>
+ <div style="display: flex; align-items: center; gap: 6px;">
+ <span style="font-size: 12.5px; font-weight: 800; color: var(--navy);">Marcus Vance</span>
+ <span style="font-size: 9px; background: rgba(37,99,235,0.12); color: var(--blue); font-weight: 800; padding: 1px 6px; border-radius: 4px;">Neighbor</span>
+ </div>
+ <div style="font-size: 10.5px; color: var(--text-soft);">Local Responder • 120m away</div>
+ </div>
+ </div>
+ <button class="icon-circle-btn" onclick="scrollToSlot(9)"><svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg></button>
+ </div>
+
+ <button class="btn-primary btn-teal" onclick="showToast(13, 'Add new contact dialog opened')">
+ <span>+ Add Emergency Contact</span>
+ </button>
+ </div>
+
+ <div class="phone-nav-fixed">
+ <div class="nav-item" onclick="scrollToSlot(6)"><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg><span>Home</span></div>
+ <div class="nav-item" onclick="scrollToSlot(7)"><svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg><span>Communicate</span></div>
+ <div class="nav-item" onclick="scrollToSlot(11)"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg><span>Device</span></div>
+ <div class="nav-item" onclick="scrollToSlot(16)"><svg viewBox="0 0 24 24"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2zm-2 1H8v-6c0-2.48 1.51-4.5 4-4.5s4 2.02 4 4.5v6z"/></svg><span>Alerts</span></div>
+ <div class="nav-item active" onclick="scrollToSlot(18)"><svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg><span>Profile</span></div>
+ </div>
+ <div class="home-indicator"></div>
+ </div>
+ </div>
+
+  <!-- ==================== SCREEN 14: ASSISTIVE ALERT PREFERENCES ==================== -->
+ <div class="slot" data-category="hardware" id="slot-14">
+ <div class="slot-label-bar">
+ <div class="slot-label"><span class="badge">14</span><span>Alert Preferences</span></div>
+ <button class="expand-btn" onclick="openZoomModal(14)">⛶ Zoom</button>
+ </div>
+ <div class="phone">
+ <div class="dynamic-island"><div class="island-cam"></div><div class="island-sensor"></div></div>
+ <div class="status-bar"><span>9:41</span><div class="status-icons"><svg viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9 0 2.12.74 4.07 1.97 5.61L4.35 18.4c-.39.39-.39 1.02 0 1.41.39.39 1.02.39 1.41 0l.85-.85C8.16 19.96 9.98 21 12 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm0 15c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6z"/></svg><svg viewBox="0 0 24 24"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg><svg viewBox="0 0 24 24"><path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z"/></svg></div></div>
+ 
+ <div class="phone-header-fixed">
+ <h2>Alert Preferences</h2>
+ <button class="icon-circle-btn" onclick="scrollToSlot(11)"><svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></button>
+ </div>
+
+ <div class="phone-content" style="padding-bottom: 74px; gap: 10px;">
+ <div style="font-size: 11.5px; color: var(--text-mid); line-height: 1.4;">
+ Configure which environmental events trigger audible smart speaker chimes :
+ </div>
+
+ <!-- Doorbell -->
+ <div class="ui-card" style="display: flex; align-items: center; justify-content: space-between; padding: 10px 12px;">
+ <div>
+ <div style="font-size: 12.5px; font-weight: 700; color: var(--navy);">🔔 Doorbell Detection</div>
+ <div style="font-size: 10px; color: var(--text-soft);">Chime: Ding-Dong • Volume: 85%</div>
+ </div>
+ <div class="ios-toggle on" onclick="toggleSwitch(this); showToast(14, 'Doorbell alerts toggled')"></div>
+ </div>
+
+ <!-- Name Calling Alert -->
+ <div class="ui-card" style="display: flex; align-items: center; justify-content: space-between; padding: 10px 12px;">
+ <div>
+ <div style="font-size: 12.5px; font-weight: 700; color: var(--navy);">🗣️ Name Calling ("Fiza!")</div>
+ <div style="font-size: 10px; color: var(--text-soft);">Chime: Triple Beep • Volume: 90%</div>
+ </div>
+ <div class="ios-toggle on" onclick="toggleSwitch(this); showToast(14, 'Name call alerts toggled')"></div>
+ </div>
+
+ <!-- Vehicle Honk Alert -->
+        <div class="ui-card" style="display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; border-left: 3px solid var(--amber);">
+          <div>
+            <div style="display: flex; align-items: center; gap: 6px;">
+              <div style="font-size: 12.5px; font-weight: 700; color: var(--navy);">🚗 Vehicle Honk Alert</div>
+              <span style="font-size: 9px; background: rgba(245,158,11,0.15); color: #B45309; font-weight: 800; padding: 1px 6px; border-radius: 4px;">Street & Traffic</span>
+            </div>
+            <div style="font-size: 10px; color: var(--text-soft); margin-top: 2px;">Chime: Rapid Staccato Pulse • Volume: 90%</div>
+          </div>
+          <div class="ios-toggle on" onclick="toggleSwitch(this); playChime('honk'); showToast(14, 'Vehicle honk alerts toggled')"></div>
+        </div>
+
+        <!-- Smart Speaker Volume -->
+ <div class="ui-card" style="padding: 10px 12px;">
+ <div style="display: flex; justify-content: space-between; font-size: 11px; font-weight: 700; color: var(--navy); margin-bottom: 6px;">
+ <span>Speaker Master Volume</span>
+ <span>85%</span>
+ </div>
+ <input type="range" min="30" max="100" value="85" style="width: 100%; accent-color: var(--blue);" onchange="showToast(14, 'Hardware volume updated: ' + this.value + '%')">
+ </div>
+ </div>
+
+ <div class="phone-nav-fixed">
+ <div class="nav-item" onclick="scrollToSlot(6)"><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg><span>Home</span></div>
+ <div class="nav-item" onclick="scrollToSlot(7)"><svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg><span>Communicate</span></div>
+ <div class="nav-item active" onclick="scrollToSlot(11)"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg><span>Device</span></div>
+ <div class="nav-item" onclick="scrollToSlot(16)"><svg viewBox="0 0 24 24"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2zm-2 1H8v-6c0-2.48 1.51-4.5 4-4.5s4 2.02 4 4.5v6z"/></svg><span>Alerts</span></div>
+ <div class="nav-item" onclick="scrollToSlot(18)"><svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg><span>Profile</span></div>
+ </div>
+ <div class="home-indicator"></div>
+ </div>
+ </div>
+
+  <!-- ==================== SCREEN 15: SOS SETTINGS ==================== -->
+ <div class="slot" data-category="sos" id="slot-15">
+ <div class="slot-label-bar">
+ <div class="slot-label"><span class="badge">15</span><span>SOS Settings</span></div>
+ <button class="expand-btn" onclick="openZoomModal(15)">⛶ Zoom</button>
+ </div>
+ <div class="phone">
+ <div class="dynamic-island"><div class="island-cam"></div><div class="island-sensor"></div></div>
+ <div class="status-bar"><span>9:41</span><div class="status-icons"><svg viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9 0 2.12.74 4.07 1.97 5.61L4.35 18.4c-.39.39-.39 1.02 0 1.41.39.39 1.02.39 1.41 0l.85-.85C8.16 19.96 9.98 21 12 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm0 15c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6z"/></svg><svg viewBox="0 0 24 24"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg><svg viewBox="0 0 24 24"><path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z"/></svg></div></div>
+ 
+ <div class="phone-header-fixed">
+ <h2>SOS Settings</h2>
+ <button class="icon-circle-btn" onclick="scrollToSlot(11)"><svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></button>
+ </div>
+
+ <div class="phone-content" style="padding-bottom: 74px; gap: 10px;">
+ <div style="font-size: 11.5px; color: var(--text-mid); line-height: 1.4;">
+ Configure outgoing emergency SOS triggers, cancellation safety windows, and recipients :
+ </div>
+
+ <!-- Cancellation Countdown Window (Section 15, 17.5: Countdown/cancel) -->
+ <div class="ui-card" style="padding: 12px;">
+ <div style="font-size: 12px; font-weight: 800; color: var(--navy); margin-bottom: 4px;">Cancel Countdown Window</div>
+ <div style="font-size: 10.5px; color: var(--text-soft); margin-bottom: 8px;">Time to cancel accidental triggers before sirens & SMS dispatch:</div>
+ <div style="display: flex; gap: 6px;">
+ <button class="filter-chip" style="padding: 5px 12px; font-size: 11px;" onclick="showToast(15, 'Window: 3 Seconds')">3 Seconds</button>
+ <button class="filter-chip active" style="padding: 5px 12px; font-size: 11px;" onclick="showToast(15, 'Window: 5 Seconds (Recommended)')">5s (Default)</button>
+ <button class="filter-chip" style="padding: 5px 12px; font-size: 11px;" onclick="showToast(15, 'Window: 10 Seconds')">10 Seconds</button>
+ </div>
+ </div>
+
+ <!-- Emergency Message Template -->
+ <div class="ui-card" style="padding: 10px 12px;">
+ <div style="font-size: 11.5px; font-weight: 700; color: var(--navy); margin-bottom: 4px;">Emergency Dispatch SMS:</div>
+ <div style="background: var(--surface-alt); border-radius: 8px; padding: 8px; font-size: 11px; color: var(--text-mid); line-height: 1.4;">
+ "EMERGENCY SOS: Fiza Nizamani (Deaf / PSL User) needs urgent assistance. Live GPS Location attached. Please text or video call."
+ </div>
+ </div>
+
+ <!-- Hardware & SMS Toggles -->
+ <div class="ui-card" style="display: flex; align-items: center; justify-content: space-between; padding: 10px 12px;">
+ <div>
+ <div style="font-size: 12px; font-weight: 700; color: var(--navy);">🔊 Speaker Siren Mode</div>
+ <div style="font-size: 10px; color: var(--text-soft);">Sound max alarm on paired speaker</div>
+ </div>
+ <div class="ios-toggle on red" onclick="toggleSwitch(this); showToast(15, 'Hardware siren mode toggled')"></div>
+ </div>
+
+ <div class="ui-card" style="display: flex; align-items: center; justify-content: space-between; padding: 10px 12px;">
+ <div>
+ <div style="font-size: 12px; font-weight: 700; color: var(--navy);">📞 Auto-Dispatch Rescue 1122</div>
+ <div style="font-size: 10px; color: var(--text-soft);">Notify emergency services with GPS</div>
+ </div>
+ <div class="ios-toggle on" onclick="toggleSwitch(this); showToast(15, 'Emergency line auto-dispatch toggled')"></div>
+ </div>
+
+ <button class="btn-primary btn-danger" onclick="scrollToSlot(17)">
+ <span>Test SOS Screen Flow</span>
+ <svg viewBox="0 0 24 24" style="width:16px;height:16px;fill:currentColor;"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+ </button>
+ </div>
+
+ <div class="phone-nav-fixed">
+ <div class="nav-item" onclick="scrollToSlot(6)"><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg><span>Home</span></div>
+ <div class="nav-item" onclick="scrollToSlot(7)"><svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg><span>Communicate</span></div>
+ <div class="nav-item" onclick="scrollToSlot(11)"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg><span>Device</span></div>
+ <div class="nav-item" onclick="scrollToSlot(16)"><svg viewBox="0 0 24 24"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2zm-2 1H8v-6c0-2.48 1.51-4.5 4-4.5s4 2.02 4 4.5v6z"/></svg><span>Alerts</span></div>
+ <div class="nav-item" onclick="scrollToSlot(18)"><svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg><span>Profile</span></div>
+ </div>
+ <div class="home-indicator"></div>
+ </div>
+ </div>
+
+  <!-- ==================== SCREEN 16: ALERT DETAIL ==================== -->
+ <div class="slot" data-category="hardware" id="slot-16">
+ <div class="slot-label-bar">
+ <div class="slot-label"><span class="badge">16</span><span>Alert Detail</span></div>
+ <button class="expand-btn" onclick="openZoomModal(16)">⛶ Zoom</button>
+ </div>
+ <div class="phone">
+ <div class="dynamic-island"><div class="island-cam"></div><div class="island-sensor"></div></div>
+ <div class="status-bar"><span>9:41</span><div class="status-icons"><svg viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9 0 2.12.74 4.07 1.97 5.61L4.35 18.4c-.39.39-.39 1.02 0 1.41.39.39 1.02.39 1.41 0l.85-.85C8.16 19.96 9.98 21 12 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm0 15c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6z"/></svg><svg viewBox="0 0 24 24"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg><svg viewBox="0 0 24 24"><path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z"/></svg></div></div>
+ 
+ <div class="phone-header-fixed">
+ <h2>Alert Notification</h2>
+ <button class="icon-circle-btn" onclick="scrollToSlot(6)"><svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></button>
+ </div>
+
+ <div class="phone-content" style="padding-bottom: 74px; gap: 12px;">
+ <!-- Alert Hero Card (Section 14 & 17.4: Who/what/when, acknowledgement) -->
+ <div style="background: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%); border: 1.5px solid #F59E0B; border-radius: 20px; padding: 16px; text-align: center;">
+ <div style="width: 56px; height: 56px; border-radius: 50%; background: #F59E0B; color: #fff; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; font-size: 26px; box-shadow: 0 4px 14px rgba(245,158,11,0.4);">
+ 🔔
+ </div>
+ <h3 style="font-size: 17px; font-weight: 800; color: #92400E;">Front Doorbell Triggered</h3>
+ <div style="font-size: 11px; color: #B45309; font-weight: 700; margin-top: 2px;">
+ Audible Chime Sounding on <span class="signly-brand" aria-label="Signly">S<span class="brand-i" aria-hidden="true">ı</span>gnly</span> Speaker
+ </div>
+ </div>
+
+ <!-- Event Details (Section 17.4: Details) -->
+ <div class="ui-card" style="padding: 12px; display: flex; flex-direction: column; gap: 8px;">
+ <div style="display: flex; justify-content: space-between; font-size: 11px;">
+ <span style="color: var(--text-soft);">Event Type:</span>
+ <span style="font-weight: 700; color: var(--navy);">Visitor / Doorbell Chime</span>
+ </div>
+ <div style="display: flex; justify-content: space-between; font-size: 11px;">
+ <span style="color: var(--text-soft);">Time Stamp:</span>
+ <span style="font-weight: 700; color: var(--navy);">Today, 03:42:15 PM</span>
+ </div>
+ <div style="display: flex; justify-content: space-between; font-size: 11px;">
+ <span style="color: var(--text-soft);">Hardware Output:</span>
+ <span style="font-weight: 700; color: var(--navy);"><span class="signly-brand" aria-label="Signly">S<span class="brand-i" aria-hidden="true">ı</span>gnly</span> Speaker Active (85 dB)</span>
+ </div>
+ <div style="display: flex; justify-content: space-between; font-size: 11px;">
+ <span style="color: var(--text-soft);">Status:</span>
+ <span style="font-weight: 700; color: var(--amber);">Awaiting Acknowledgement</span>
+ </div>
+ </div>
+
+ <!-- Action Buttons (Section 17.4: Acknowledgement) -->
+ <button class="btn-primary btn-teal" onclick="playChime('doorbell'); showToast(16, 'Chime Acknowledged & Speaker Silenced')">
+ <svg viewBox="0 0 24 24" style="width:18px;height:18px;fill:currentColor;"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+ <span>Acknowledge & Mute Chime</span>
+ </button>
+
+ <button style="background: var(--surface-alt); border: 1px solid var(--line); border-radius: 12px; padding: 10px; font-size: 12px; font-weight: 700; color: var(--navy); cursor: pointer; text-align: center;" onclick="showToast(16, 'Camera preview opened')">
+ View Front Door Video Feed
+ </button>
+ </div>
+
+ <div class="phone-nav-fixed">
+ <div class="nav-item" onclick="scrollToSlot(6)"><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg><span>Home</span></div>
+ <div class="nav-item" onclick="scrollToSlot(7)"><svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg><span>Communicate</span></div>
+ <div class="nav-item" onclick="scrollToSlot(11)"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg><span>Device</span></div>
+ <div class="nav-item active" onclick="scrollToSlot(16)"><svg viewBox="0 0 24 24"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2zm-2 1H8v-6c0-2.48 1.51-4.5 4-4.5s4 2.02 4 4.5v6z"/></svg><span>Alerts</span></div>
+ <div class="nav-item" onclick="scrollToSlot(18)"><svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg><span>Profile</span></div>
+ </div>
+ <div class="home-indicator"></div>
+ </div>
+ </div>
+
+  <!-- ==================== SCREEN 17: SOS ACTIVE ==================== -->
+ <div class="slot" data-category="sos" id="slot-17">
+ <div class="slot-label-bar">
+ <div class="slot-label"><span class="badge">17</span><span>SOS Active Emergency</span></div>
+ <button class="expand-btn" onclick="openZoomModal(17)">⛶ Zoom</button>
+ </div>
+ <div class="phone sos-theme">
+ <div class="dynamic-island"><div class="island-cam"></div><div class="island-sensor"></div></div>
+ <div class="status-bar"><span>9:41</span><div class="status-icons"><svg viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9 0 2.12.74 4.07 1.97 5.61L4.35 18.4c-.39.39-.39 1.02 0 1.41.39.39 1.02.39 1.41 0l.85-.85C8.16 19.96 9.98 21 12 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm0 15c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6z"/></svg><svg viewBox="0 0 24 24"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg><svg viewBox="0 0 24 24"><path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z"/></svg></div></div>
+ 
+ <div class="phone-content" style="align-items: center; text-align: center; padding: 20px 16px 40px; gap: 14px;">
+ <!-- Pulsating Siren Beacon (Section 14 & 17.5: Active state) -->
+ <div style="width: 72px; height: 72px; border-radius: 50%; background: #EF4444; color: #fff; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 30px #EF4444; animation: beaconPulse 1.4s infinite; margin-top: 10px;">
+ <svg viewBox="0 0 24 24" style="width:38px;height:38px;fill:currentColor;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+ </div>
+
+ <div>
+ <h2 style="font-size: 20px; font-weight: 800; color: #FFFFFF; letter-spacing: -0.02em;">EMERGENCY SOS ACTIVE</h2>
+ <p style="font-size: 11.5px; color: #FCA5A5; margin-top: 4px;"><span class="signly-brand signly-brand-light" aria-label="Signly">S<span class="brand-i" aria-hidden="true">ı</span>gnly</span> Speaker siren sounding at 100% volume</p>
+ </div>
+
+ <!-- 5-Second Cancel Countdown Circle (Section 15 & 17.5: Optional countdown) -->
+ <div style="background: rgba(0,0,0,0.4); border: 1.5px solid rgba(239,68,68,0.5); border-radius: 16px; padding: 12px; width: 100%;">
+ <div style="font-size: 10.5px; color: #FCA5A5; text-transform: uppercase; font-weight: 800;">Cancel Window (Safety Rule)</div>
+ <div id="sos-countdown-num" style="font-size: 32px; font-weight: 800; color: #FFFFFF; margin: 4px 0;">3s</div>
+ <button onclick="cancelSOS()" style="background: #FFFFFF; color: #991B1B; border: none; border-radius: 999px; padding: 8px 24px; font-size: 12px; font-weight: 800; cursor: pointer; box-shadow: 0 4px 14px rgba(0,0,0,0.3);">
+ CANCEL SOS / FALSE ALARM
+ </button>
+ </div>
+
+ <!-- Real-Time Dispatch Status Log (Section 17.5: Sending/active/success) -->
+ <div style="background: rgba(0,0,0,0.3); border-radius: 14px; padding: 10px 12px; width: 100%; text-align: left; display: flex; flex-direction: column; gap: 6px; font-size: 11px;">
+ <div style="display: flex; align-items: center; gap: 6px; color: #86EFAC;">
+ <span>✓</span><span>GPS: 24.8607° N, 67.0011° E (Karachi)</span>
+ </div>
+ <div style="display: flex; align-items: center; gap: 6px; color: #86EFAC;">
+ <span>✓</span><span>SMS Dispatched to Alex Chen (Family)</span>
+ </div>
+ <div style="display: flex; align-items: center; gap: 6px; color: #86EFAC;">
+ <span>✓</span><span>Alert routed to Sarah Jenkins (Interpreter)</span>
+ </div>
+ <div style="display: flex; align-items: center; gap: 6px; color: #FDE047;">
+ <span>⏳</span><span>Connecting to Sindh Rescue 1122 line...</span>
+ </div>
+ </div>
+
+ <button onclick="scrollToSlot(6)" style="background: transparent; border: 1px solid rgba(255,255,255,0.25); color: #fff; border-radius: 999px; padding: 6px 16px; font-size: 11px; cursor: pointer;">
+ Return to Dashboard
+ </button>
+ </div>
+ <div class="home-indicator"></div>
+ </div>
+ </div>
+
+  <!-- ==================== SCREEN 18: PROFILE & VISUAL ACCESSIBILITY ==================== -->
+  <div class="slot" data-category="people" id="slot-18">
+    <div class="slot-label-bar">
+      <div class="slot-label"><span class="badge">18</span><span>Profile & Accessibility</span></div>
+      <button class="expand-btn" onclick="openZoomModal(18)">⛶ Zoom</button>
+    </div>
+    <div class="phone">
+      <div class="dynamic-island"><div class="island-cam"></div><div class="island-sensor"></div></div>
+      <div class="status-bar"><span>9:41</span><div class="status-icons"><svg viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9 0 2.12.74 4.07 1.97 5.61L4.35 18.4c-.39.39-.39 1.02 0 1.41.39.39 1.02.39 1.41 0l.85-.85C8.16 19.96 9.98 21 12 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm0 15c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6z"/></svg><svg viewBox="0 0 24 24"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg><svg viewBox="0 0 24 24"><path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z"/></svg></div></div>
+      
+      <div class="phone-header-fixed">
+        <h2>Profile & Access</h2>
+        <button class="icon-circle-btn" onclick="showToast(18, 'Profile settings updated')"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></button>
+      </div>
+
+      <div class="phone-content" style="padding-bottom: 74px; gap: 10px;">
+        <!-- User Profile Card -->
+        <div class="ui-card" style="display: flex; align-items: center; gap: 12px; padding: 12px;">
+          <div style="width: 48px; height: 48px; border-radius: 50%; overflow: hidden; border: 2.5px solid var(--teal);">
+            <img src="assets/avatar_fiza_hello.jpg" alt="Fiza" style="width: 100%; height: 100%; object-fit: cover; object-position: center 15%;">
+          </div>
+          <div>
+            <div style="font-size: 14px; font-weight: 800; color: var(--navy);">Fiza Nizamani</div>
+            <div style="font-size: 11px; color: var(--teal); font-weight: 700;">Deaf • Primary PSL Signer</div>
+            <div style="font-size: 10px; color: var(--text-soft);">Karachi, Sindh, Pakistan</div>
+          </div>
+        </div>
+
+        <!-- Accessibility Controls -->
+        <div style="font-size: 11px; font-weight: 800; color: var(--text-soft); text-transform: uppercase; margin-top: 4px;">
+          Visual Accessibility Controls
+        </div>
+
+        <!-- Dynamic Text Scaling -->
+        <div class="ui-card" style="padding: 10px 12px;">
+          <div style="display: flex; justify-content: space-between; font-size: 11px; font-weight: 700; color: var(--navy); margin-bottom: 6px;">
+            <span>Text Scaling Size</span>
+            <span>115% (Large)</span>
+          </div>
+          <input type="range" min="90" max="140" value="115" style="width: 100%; accent-color: var(--blue);" onchange="showToast(18, 'Font scaling set to ' + this.value + '%')">
+        </div>
+
+        <!-- High Contrast Mode -->
+        <div class="ui-card" style="display: flex; align-items: center; justify-content: space-between; padding: 10px 12px;">
+          <div>
+            <div style="font-size: 12px; font-weight: 700; color: var(--navy);">High Contrast Interface</div>
+            <div style="font-size: 10px; color: var(--text-soft);">Enhance visual boundaries and text contrast</div>
+          </div>
+          <div class="ios-toggle on" onclick="toggleSwitch(this); showToast(18, 'High contrast toggled')"></div>
+        </div>
+
+        <!-- Haptic Vibration Feedback -->
+        <div class="ui-card" style="display: flex; align-items: center; justify-content: space-between; padding: 10px 12px;">
+          <div>
+            <div style="font-size: 12px; font-weight: 700; color: var(--navy);">Haptic Alerts Vibration</div>
+            <div style="font-size: 10px; color: var(--text-soft);">Physical vibration for doorbells and SOS</div>
+          </div>
+          <div class="ios-toggle on" onclick="toggleSwitch(this); showToast(18, 'Haptic vibration toggled')"></div>
+        </div>
+
+        <!-- PSL Regional Dialect -->
+        <div class="ui-card" style="display: flex; align-items: center; justify-content: space-between; padding: 10px 12px;">
+          <div>
+            <div style="font-size: 12px; font-weight: 700; color: var(--navy);">Sign Language Standard</div>
+            <div style="font-size: 10px; color: var(--text-soft);">Pakistan Sign Language (PSL Standard)</div>
+          </div>
+          <span style="font-size: 11px; color: var(--blue); font-weight: 700;">Active ✓</span>
+        </div>
+
+        <!-- Account Session Card -->
+        <div class="ui-card" style="display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; background: rgba(37,99,235,0.04); border-color: rgba(37,99,235,0.18);">
+          <div>
+            <div style="font-size: 11.5px; font-weight: 700; color: var(--navy);">Signed in: fiza.nizamani@signly.pk</div>
+            <div style="font-size: 10px; color: var(--text-soft);">Account synced with Cloud PSL v2.4</div>
+          </div>
+          <button onclick="showToast(18, 'Signed out of Signly session'); scrollToSlot(2);" style="background: none; border: 1px solid var(--red); color: var(--red); padding: 4px 8px; border-radius: 8px; font-size: 10px; font-weight: 700; cursor: pointer;">Sign Out</button>
+        </div>
+      </div>
+
+      <div class="phone-nav-fixed">
+        <div class="nav-item" onclick="scrollToSlot(6)"><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg><span>Home</span></div>
+        <div class="nav-item" onclick="scrollToSlot(7)"><svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg><span>Communicate</span></div>
+        <div class="nav-item" onclick="scrollToSlot(11)"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg><span>Device</span></div>
+        <div class="nav-item" onclick="scrollToSlot(16)"><svg viewBox="0 0 24 24"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2zm-2 1H8v-6c0-2.48 1.51-4.5 4-4.5s4 2.02 4 4.5v6z"/></svg><span>Alerts</span></div>
+        <div class="nav-item active" onclick="scrollToSlot(18)"><svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg><span>Profile</span></div>
+      </div>
+      <div class="home-indicator"></div>
+    </div>
+  </div>
+
+  <!-- ==================== SCREEN 19: HISTORY & LOGS ==================== -->
+  <div class="slot" data-category="system" id="slot-19">
+    <div class="slot-label-bar">
+      <div class="slot-label"><span class="badge">19</span><span>Activity & History Logs</span></div>
+      <button class="expand-btn" onclick="openZoomModal(19)">⛶ Zoom</button>
+    </div>
+    <div class="phone">
+      <div class="dynamic-island"><div class="island-cam"></div><div class="island-sensor"></div></div>
+      <div class="status-bar"><span>9:41</span><div class="status-icons"><svg viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9 0 2.12.74 4.07 1.97 5.61L4.35 18.4c-.39.39-.39 1.02 0 1.41.39.39 1.02.39 1.41 0l.85-.85C8.16 19.96 9.98 21 12 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm0 15c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6z"/></svg><svg viewBox="0 0 24 24"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg><svg viewBox="0 0 24 24"><path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z"/></svg></div></div>
+      
+      <div class="phone-header-fixed">
+        <h2>Activity & History</h2>
+        <button class="icon-circle-btn" onclick="showToast(19, 'Activity log exported')"><svg viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"/></svg></button>
+      </div>
+
+      <div class="phone-content" style="padding-bottom: 74px; gap: 10px;">
+        <div style="font-size: 11px; font-weight: 800; color: var(--text-soft); text-transform: uppercase;">
+          Recent Activity & Events
+        </div>
+
+        <!-- Log Item 1 -->
+        <div class="ui-card" style="padding: 10px 12px; border-left: 3px solid var(--blue);">
+          <div style="display: flex; justify-content: space-between; font-size: 11.5px; font-weight: 700; color: var(--navy);">
+            <span>Text to Sign: "Mother"</span>
+            <span style="font-size: 10px; color: var(--text-soft);">10:42 AM</span>
+          </div>
+          <div style="font-size: 10.5px; color: var(--text-soft); margin-top: 2px;">
+            Converted to 3D avatar sign playback
+          </div>
+        </div>
+
+        <!-- Log Item 2 -->
+        <div class="ui-card" style="padding: 10px 12px; border-left: 3px solid var(--amber);">
+          <div style="display: flex; justify-content: space-between; font-size: 11.5px; font-weight: 700; color: var(--navy);">
+            <span>Doorbell Chime Alert</span>
+            <span style="font-size: 10px; color: var(--text-soft);">09:15 AM</span>
+          </div>
+          <div style="font-size: 10.5px; color: var(--text-soft); margin-top: 2px;">
+            Sounded via <span class="signly-brand" aria-label="Signly">S<span class="brand-i" aria-hidden="true">ı</span>gnly</span> Speaker • Acknowledged
+          </div>
+        </div>
+
+        <!-- Log Item 3 -->
+        <div class="ui-card" style="padding: 10px 12px; border-left: 3px solid var(--teal);">
+          <div style="display: flex; justify-content: space-between; font-size: 11.5px; font-weight: 700; color: var(--navy);">
+            <span>Sign to Text: "Help"</span>
+            <span style="font-size: 10px; color: var(--text-soft);">Yesterday</span>
+          </div>
+          <div style="font-size: 10.5px; color: var(--text-soft); margin-top: 2px;">
+            Camera motion recognized • Confidence 94%
+          </div>
+        </div>
+
+        <!-- Log Item 4 -->
+        <div class="ui-card" style="padding: 10px 12px; border-left: 3px solid var(--red);">
+          <div style="display: flex; justify-content: space-between; font-size: 11.5px; font-weight: 700; color: var(--navy);">
+            <span>Emergency SOS Test Drill</span>
+            <span style="font-size: 10px; color: var(--text-soft);">3 days ago</span>
+          </div>
+          <div style="font-size: 10.5px; color: var(--text-soft); margin-top: 2px;">
+            Test drill completed • Sirens & alerts verified
+          </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 6px;">
+          <button onclick="showToast(19, 'History cleared successfully')" style="background: none; border: none; color: var(--red); font-size: 11px; font-weight: 700; cursor: pointer;">
+            Clear History Data
+          </button>
+        </div>
+      </div>
+
+      <div class="phone-nav-fixed">
+        <div class="nav-item" onclick="scrollToSlot(6)"><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg><span>Home</span></div>
+        <div class="nav-item" onclick="scrollToSlot(7)"><svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg><span>Communicate</span></div>
+        <div class="nav-item" onclick="scrollToSlot(11)"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg><span>Device</span></div>
+        <div class="nav-item" onclick="scrollToSlot(16)"><svg viewBox="0 0 24 24"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2zm-2 1H8v-6c0-2.48 1.51-4.5 4-4.5s4 2.02 4 4.5v6z"/></svg><span>Alerts</span></div>
+        <div class="nav-item active" onclick="scrollToSlot(18)"><svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg><span>Profile</span></div>
+      </div>
+      <div class="home-indicator"></div>
+    </div>
+  </div>
+
+  <!-- ==================== SCREEN 20: HELP & SUPPORTED SIGNS ==================== -->
+  <div class="slot" data-category="system" id="slot-20">
+    <div class="slot-label-bar">
+      <div class="slot-label"><span class="badge">20</span><span>Help & Supported Signs</span></div>
+      <button class="expand-btn" onclick="openZoomModal(20)">⛶ Zoom</button>
+    </div>
+    <div class="phone">
+      <div class="dynamic-island"><div class="island-cam"></div><div class="island-sensor"></div></div>
+      <div class="status-bar"><span>9:41</span><div class="status-icons"><svg viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9 0 2.12.74 4.07 1.97 5.61L4.35 18.4c-.39.39-.39 1.02 0 1.41.39.39 1.02.39 1.41 0l.85-.85C8.16 19.96 9.98 21 12 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm0 15c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6z"/></svg><svg viewBox="0 0 24 24"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg><svg viewBox="0 0 24 24"><path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z"/></svg></div></div>
+      
+      <div class="phone-header-fixed">
+        <h2>Help & Supported Signs</h2>
+        <button class="icon-circle-btn" onclick="scrollToSlot(6)"><svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></button>
+      </div>
+
+      <div class="phone-content" style="padding-bottom: 74px; gap: 10px;">
+        <div style="background: var(--surface-alt); border-radius: 12px; padding: 12px; font-size: 11px; color: var(--text-mid); line-height: 1.45;">
+          <strong style="color: var(--navy); display: block; margin-bottom: 3px;"><span class="signly-brand" aria-label="Signly">S<span class="brand-i" aria-hidden="true">ı</span>gnly</span> 3D Sign Engine</strong>
+          <span class="signly-brand" aria-label="Signly">S<span class="brand-i" aria-hidden="true">ı</span>gnly</span> provides high-accuracy 3D avatar animations for Pakistan Sign Language (PSL). The verified motion dictionary includes:
+        </div>
+
+        <div style="font-size: 11px; font-weight: 800; color: var(--text-soft); text-transform: uppercase;">
+          Core Supported Signs
+        </div>
+
+        <div class="ui-card" style="padding: 10px 12px; font-size: 11px;">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px;">
+            <div style="background: var(--surface-alt); padding: 7px 10px; border-radius: 6px; font-weight: 700; color: var(--navy);">1. FATHER ✓</div>
+            <div style="background: var(--surface-alt); padding: 7px 10px; border-radius: 6px; font-weight: 700; color: var(--navy);">2. MOTHER ✓</div>
+            <div style="background: var(--surface-alt); padding: 7px 10px; border-radius: 6px; font-weight: 700; color: var(--navy);">3. SISTER ✓</div>
+            <div style="background: var(--surface-alt); padding: 7px 10px; border-radius: 6px; font-weight: 700; color: var(--navy);">4. BROTHER ✓</div>
+            <div style="background: var(--surface-alt); padding: 7px 10px; border-radius: 6px; font-weight: 700; color: var(--navy);">5. CHILD ✓</div>
+            <div style="background: var(--surface-alt); padding: 7px 10px; border-radius: 6px; font-weight: 700; color: var(--navy);">6. GO ✓</div>
+            <div style="background: var(--surface-alt); padding: 7px 10px; border-radius: 6px; font-weight: 700; color: var(--navy);">7. COME ✓</div>
+            <div style="background: var(--surface-alt); padding: 7px 10px; border-radius: 6px; font-weight: 700; color: var(--navy);">8. HELP ✓</div>
+          </div>
+          <div style="font-size: 10px; color: var(--text-soft); margin-top: 8px;">
+            ✓ High quality 3D avatar motion animations with verified PSL accuracy.
+          </div>
+        </div>
+
+        <!-- Smart Speaker Card -->
+        <div class="notice-banner" style="background: rgba(37,99,235,0.08); border-color: rgba(37,99,235,0.25); color: #1E3A8A;">
+          <svg viewBox="0 0 24 24" style="fill:var(--blue);"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+          <div>
+            <strong><span class="signly-brand" aria-label="Signly">S<span class="brand-i" aria-hidden="true">ı</span>gnly</span> Smart Speaker:</strong>
+            Wirelessly connects to play clear audible chimes for doorbells, vehicle honks, and emergency SOS alerts.
+          </div>
+        </div>
+      </div>
+
+      <div class="phone-nav-fixed">
+        <div class="nav-item" onclick="scrollToSlot(6)"><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg><span>Home</span></div>
+        <div class="nav-item" onclick="scrollToSlot(7)"><svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg><span>Communicate</span></div>
+        <div class="nav-item" onclick="scrollToSlot(11)"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg><span>Device</span></div>
+        <div class="nav-item" onclick="scrollToSlot(16)"><svg viewBox="0 0 24 24"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2zm-2 1H8v-6c0-2.48 1.51-4.5 4-4.5s4 2.02 4 4.5v6z"/></svg><span>Alerts</span></div>
+        <div class="nav-item active" onclick="scrollToSlot(18)"><svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg><span>Profile</span></div>
+      </div>
+      <div class="home-indicator"></div>
+    </div>
+  </div>
+
+  <!-- ==================== SCREEN 21: SYSTEM ARCHITECTURE & DESIGN TOKENS ==================== -->
+  <div class="slot" data-category="system" id="slot-21" style="width: 100%; max-width: 1040px;">
+    <div class="slot-label-bar" style="width: 100%;">
+      <div class="slot-label"><span class="badge">21</span><span><span class="signly-brand" aria-label="Signly">S<span class="brand-i" aria-hidden="true">ı</span>gnly</span> Platform & Design Tokens</span></div>
+      <button class="expand-btn" onclick="showToast(21, 'Platform tokens verified')">● Active</button>
+    </div>
+    
+    <div style="background: #0B1220; border-radius: 32px; padding: 28px 24px; color: #FFFFFF; border: 1px solid rgba(255,255,255,0.1); box-shadow: var(--shadow-card); width: 100%;">
+      <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; margin-bottom: 20px; gap: 12px;">
+        <div>
+          <div style="font-size: 11px; font-weight: 800; color: var(--teal-glow); text-transform: uppercase; letter-spacing: 0.05em;">Platform Overview</div>
+          <h2 style="font-size: 20px; font-weight: 800; color: #FFFFFF; letter-spacing: -0.02em;"><span class="signly-brand signly-brand-light" aria-label="Signly">S<span class="brand-i" aria-hidden="true">ı</span>gnly</span> Platform Architecture & Design Tokens</h2>
+        </div>
+        <div style="display: flex; gap: 8px;">
+          <span style="background: rgba(37,99,235,0.2); color: #60A5FA; border: 1px solid rgba(37,99,235,0.4); padding: 4px 12px; border-radius: 999px; font-size: 11px; font-weight: 700;">Pakistan Sign Language</span>
+          <span style="background: rgba(0,196,159,0.2); color: #5EEAD4; border: 1px solid rgba(0,196,159,0.4); padding: 4px 12px; border-radius: 999px; font-size: 11px; font-weight: 700;">Smart Assistive System</span>
+        </div>
+      </div>
+
+      <!-- Communication & Hardware Topology Diagram -->
+      <div style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); border-radius: 18px; padding: 18px; margin-bottom: 20px;">
+        <div style="font-size: 12px; font-weight: 800; color: #E2E8F0; margin-bottom: 12px;"><span class="signly-brand signly-brand-light" aria-label="Signly">S<span class="brand-i" aria-hidden="true">ı</span>gnly</span> Core Features & Data Flow:</div>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px;">
+          <div style="background: rgba(0,0,0,0.3); border-radius: 12px; padding: 12px; border-left: 3px solid var(--blue);">
+            <div style="font-size: 11px; font-weight: 800; color: #60A5FA;">DIRECTION 1: TEXT TO SIGN</div>
+            <div style="font-size: 11px; color: #CBD5E1; margin-top: 4px; line-height: 1.4;">
+              English Text → Natural Language Processing → PSL Sign Lexicon → 3D Avatar Animation
+            </div>
+          </div>
+
+          <div style="background: rgba(0,0,0,0.3); border-radius: 12px; padding: 12px; border-left: 3px solid var(--teal);">
+            <div style="font-size: 11px; font-weight: 800; color: #5EEAD4;">DIRECTION 2: SIGN TO TEXT</div>
+            <div style="font-size: 11px; color: #CBD5E1; margin-top: 4px; line-height: 1.4;">
+              Camera Feed → AI Motion Detection → PSL Sign Recognition → Instant English Text Output
+            </div>
+          </div>
+
+          <div style="background: rgba(0,0,0,0.3); border-radius: 12px; padding: 12px; border-left: 3px solid var(--amber);">
+            <div style="font-size: 11px; font-weight: 800; color: #FCD34D;">INCOMING ASSISTIVE ALERTS</div>
+            <div style="font-size: 11px; color: #CBD5E1; margin-top: 4px; line-height: 1.4;">
+              Doorbell & Alarm Detection → Wireless Sync → Smart Speaker Chime → Visual Mobile Notification
+            </div>
+          </div>
+
+          <div style="background: rgba(0,0,0,0.3); border-radius: 12px; padding: 12px; border-left: 3px solid var(--red);">
+            <div style="font-size: 11px; font-weight: 800; color: #FCA5A5;">OUTGOING EMERGENCY SOS</div>
+            <div style="font-size: 11px; color: #CBD5E1; margin-top: 4px; line-height: 1.4;">
+              One-Tap SOS Button → 5s Safety Window → Siren Sound + Instant Emergency Contact Alert
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Color Swatches -->
+      <div style="display: flex; flex-wrap: wrap; gap: 12px; justify-content: space-between;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <div style="width: 32px; height: 32px; border-radius: 8px; background: var(--navy); border: 1px solid rgba(255,255,255,0.2);"></div>
+          <div><div style="font-size: 11px; font-weight: 700;">Midnight Navy</div><div style="font-size: 10px; color: #94A3B8;">#1A2849</div></div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <div style="width: 32px; height: 32px; border-radius: 8px; background: var(--blue);"></div>
+          <div><div style="font-size: 11px; font-weight: 700;">Electric Blue</div><div style="font-size: 10px; color: #94A3B8;">#2563EB</div></div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <div style="width: 32px; height: 32px; border-radius: 8px; background: var(--teal);"></div>
+          <div><div style="font-size: 11px; font-weight: 700;">Emerald Teal</div><div style="font-size: 10px; color: #94A3B8;">#00B090</div></div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <div style="width: 32px; height: 32px; border-radius: 8px; background: var(--teal-glow);"></div>
+          <div><div style="font-size: 11px; font-weight: 700;">Signature Dot</div><div style="font-size: 10px; color: #94A3B8;">#00C49F</div></div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <div style="width: 32px; height: 32px; border-radius: 8px; background: var(--red);"></div>
+          <div><div style="font-size: 11px; font-weight: 700;">Emergency Red</div><div style="font-size: 10px; color: #94A3B8;">#EF4444</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</div> <!-- End .grid -->
+
+<!-- Toast Notification Container -->
+<div id="toast-box">
+  <div class="toast-dot"></div>
+  <span id="toast-msg">Notification message</span>
+</div>
+
+  </div>
+
+  <!-- Floating Screen Navigation Dock -->
+<div class="dock-container" id="screenDock">
+  <div class="dock-content">
+    <button class="dock-btn" onclick="navigateSlot(-1)" title="Previous Screen">
+      <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+    </button>
+    
+    <div class="dock-screen-picker">
+      <select id="screenSelect" onchange="onSelectScreenChange(this.value)">
+        <!-- Populated dynamically by initDock() -->
+      </select>
+    </div>
+
+    <button class="dock-btn" onclick="navigateSlot(1)" title="Next Screen">
+      <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+    </button>
+
+    <div class="dock-divider"></div>
+
+    <button class="dock-mode-btn" id="viewModeBtn" onclick="toggleViewMode()" title="Toggle Single Focus vs Grid View">
+      <svg viewBox="0 0 24 24"><path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"/></svg>
+      <span id="viewModeLabel">Focus</span>
+    </button>
+
+    <button class="dock-top-btn" onclick="window.scrollTo({top:0, behavior:'smooth'})" title="Back to Top">
+      <svg viewBox="0 0 24 24"><path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"/></svg>
+    </button>
+  </div>
+</div>
+
+<!-- Fully Responsive Modal Zoom View -->
+<div class="zoom-modal" id="zoomModal" onclick="if(event.target===this) closeZoomModal()">
+  <div class="zoom-modal-container">
+    <div class="zoom-modal-header">
+      <div class="zoom-header-info">
+        <span class="zoom-badge" id="zoomBadge">01</span>
+        <span class="zoom-title" id="zoomTitle">Splash / Welcome</span>
+      </div>
+      <div class="zoom-header-actions">
+        <button class="zoom-nav-btn" onclick="navigateZoom(-1)" title="Previous Screen">◀</button>
+        <button class="zoom-nav-btn" onclick="navigateZoom(1)" title="Next Screen">▶</button>
+        <button class="zoom-close-btn" onclick="closeZoomModal()">✕ Close</button>
+      </div>
+    </div>
+    <div id="zoomPhoneContainer"></div>
+  </div>
+</div>
+
+<script>
+  let currentActiveSlot = 1;
+  let isSingleMode = false;
+  let sosTimer = null;
+  let sosSeconds = 5;
+
+  // Web Audio API Sound Synthesizer
+  function playChime(type) {
+    try {
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      if (!AudioCtx) return;
+      const ctx = new AudioCtx();
+      const now = ctx.currentTime;
+
+      if (type === 'doorbell') {
+        // Ding (E5: 659.25Hz) -> Dong (C5: 523.25Hz)
+        const osc1 = ctx.createOscillator();
+        const gain1 = ctx.createGain();
+        osc1.type = 'sine';
+        osc1.frequency.setValueAtTime(659.25, now);
+        gain1.gain.setValueAtTime(0.3, now);
+        gain1.gain.exponentialRampToValueAtTime(0.001, now + 0.9);
+        osc1.connect(gain1);
+        gain1.connect(ctx.destination);
+        osc1.start(now);
+        osc1.stop(now + 0.9);
+
+        const osc2 = ctx.createOscillator();
+        const gain2 = ctx.createGain();
+        osc2.type = 'sine';
+        osc2.frequency.setValueAtTime(523.25, now + 0.38);
+        gain2.gain.setValueAtTime(0.32, now + 0.38);
+        gain2.gain.exponentialRampToValueAtTime(0.001, now + 1.4);
+        osc2.connect(gain2);
+        gain2.connect(ctx.destination);
+        osc2.start(now + 0.38);
+        osc2.stop(now + 1.4);
+      } else if (type === 'sos') {
+        // Siren pulses
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(880, now);
+        osc.frequency.linearRampToValueAtTime(1200, now + 0.25);
+        osc.frequency.linearRampToValueAtTime(880, now + 0.5);
+        gain.gain.setValueAtTime(0.25, now);
+        gain.gain.linearRampToValueAtTime(0.001, now + 0.8);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.8);
+      } else if (type === 'honk') {
+        // Vehicle horn sound: dual-frequency burst
+        const osc1 = ctx.createOscillator();
+        const osc2 = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc1.type = 'sawtooth';
+        osc2.type = 'sawtooth';
+        osc1.frequency.setValueAtTime(425, now);
+        osc2.frequency.setValueAtTime(510, now);
+        gain.gain.setValueAtTime(0.22, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.45);
+        osc1.connect(gain);
+        osc2.connect(gain);
+        gain.connect(ctx.destination);
+        osc1.start(now);
+        osc2.start(now);
+        osc1.stop(now + 0.45);
+        osc2.stop(now + 0.45);
+      } else {
+        // Pleasant UI chime
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(800, now);
+        gain.gain.setValueAtTime(0.2, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.4);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.4);
+      }
+    } catch(e) {
+      console.log('AudioContext playback error: ', e);
+    }
+  }
+
+  // Toast System
+  function showToast(screenId, msg) {
+    const box = document.getElementById('toast-box');
+    const txt = document.getElementById('toast-msg');
+    txt.textContent = `[Screen ${screenId < 10 ? '0' + screenId : screenId}] ` + msg;
+    box.classList.add('show');
+    clearTimeout(box._timer);
+    box._timer = setTimeout(() => {
+      box.classList.remove('show');
+    }, 2800);
+  }
+
+  // Category Filtering
+  function filterCategory(cat, btn) {
+    document.querySelectorAll('.filter-chip').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    let firstVisible = null;
+    document.querySelectorAll('.slot').forEach(slot => {
+      const slotCat = slot.getAttribute('data-category');
+      const match = (cat === 'all' || slotCat === cat || (cat === 'onboarding' && slotCat === 'auth'));
+      if (match) {
+        slot.classList.remove('hidden');
+        if (!firstVisible) firstVisible = parseInt(slot.id.replace('slot-', ''), 10);
+      } else {
+        slot.classList.add('hidden');
+      }
+    });
+
+    if (isSingleMode && firstVisible) {
+      showSingleSlot(firstVisible);
+    }
+  }
+
+  // Floating Screen Navigation Dock Functions
+  function initDock() {
+    const select = document.getElementById('screenSelect');
+    if (!select) return;
+    select.innerHTML = '';
+    document.querySelectorAll('.slot').forEach(slot => {
+      const idNum = parseInt(slot.id.replace('slot-', ''), 10);
+      const labelText = slot.querySelector('.slot-label span:last-child')?.textContent || `Screen ${idNum}`;
+      const badgeText = slot.querySelector('.slot-label .badge')?.textContent || `${idNum}`;
+      const opt = document.createElement('option');
+      opt.value = idNum;
+      opt.textContent = `${badgeText}. ${labelText}`;
+      select.appendChild(opt);
+    });
+    updateDockSelected(currentActiveSlot || 1);
+  }
+
+  function updateDockSelected(num) {
+    const select = document.getElementById('screenSelect');
+    if (select) select.value = num;
+  }
+
+  function onSelectScreenChange(num) {
+    num = parseInt(num, 10);
+    currentActiveSlot = num;
+    if (isSingleMode) {
+      showSingleSlot(num);
+    } else {
+      scrollToSlot(num);
+    }
+  }
+
+  function navigateSlot(direction) {
+    const slots = Array.from(document.querySelectorAll('.slot:not(.hidden)'));
+    if (slots.length === 0) return;
+    const currentIdx = slots.findIndex(s => parseInt(s.id.replace('slot-', ''), 10) === currentActiveSlot);
+    let nextIdx = currentIdx + direction;
+    if (nextIdx < 0) nextIdx = slots.length - 1;
+    if (nextIdx >= slots.length) nextIdx = 0;
+    const targetNum = parseInt(slots[nextIdx].id.replace('slot-', ''), 10);
+    currentActiveSlot = targetNum;
+    updateDockSelected(targetNum);
+    if (isSingleMode) {
+      showSingleSlot(targetNum);
+    } else {
+      scrollToSlot(targetNum);
+    }
+    playChime('chime');
+  }
+
+  function toggleViewMode() {
+    isSingleMode = !isSingleMode;
+    const grid = document.querySelector('.grid');
+    const btn = document.getElementById('viewModeBtn');
+    const label = document.getElementById('viewModeLabel');
+    if (isSingleMode) {
+      grid.classList.add('single-mode');
+      btn.classList.add('active');
+      label.textContent = 'Grid';
+      showSingleSlot(currentActiveSlot || 1);
+      showToast(currentActiveSlot || 1, 'Single Focus Mode Active');
+    } else {
+      grid.classList.remove('single-mode');
+      btn.classList.remove('active');
+      label.textContent = 'Focus';
+      document.querySelectorAll('.slot').forEach(s => s.classList.remove('active-single-focus'));
+      scrollToSlot(currentActiveSlot || 1);
+      showToast(currentActiveSlot || 1, 'Grid Mode Active');
+    }
+    playChime('chime');
+  }
+
+  function showSingleSlot(num) {
+    currentActiveSlot = num;
+    updateDockSelected(num);
+    document.querySelectorAll('.slot').forEach(s => {
+      s.classList.remove('active-single-focus');
+    });
+    const target = document.getElementById('slot-' + num);
+    if (target) {
+      target.classList.remove('hidden');
+      target.classList.add('active-single-focus');
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+
+  // Smooth Scroll
+  function scrollToSlot(num) {
+    currentActiveSlot = num;
+    updateDockSelected(num);
+    const el = document.getElementById('slot-' + num);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      el.style.transform = 'scale(1.02)';
+      el.style.transition = 'transform 0.3s ease';
+      setTimeout(() => {
+        el.style.transform = 'none';
+      }, 600);
+    }
+  }
+
+  // Responsive Zoom Modal with Dynamic Scaling
+  function updateZoomScale() {
+    const clone = document.querySelector('#zoomPhoneContainer .phone');
+    if (!clone) return;
+    const availH = window.innerHeight - 110;
+    const availW = Math.min(window.innerWidth - 24, 380);
+    const scaleH = availH / 680;
+    const scaleW = availW / 320;
+    const scale = Math.min(1.0, Math.max(0.44, Math.min(scaleH, scaleW)));
+    clone.style.transform = `scale(${scale})`;
+    clone.style.transformOrigin = 'top center';
+    const container = document.getElementById('zoomPhoneContainer');
+    container.style.height = `${Math.round(680 * scale)}px`;
+    container.style.width = `${Math.round(320 * scale)}px`;
+  }
+
+  function openZoomModal(num) {
+    const slot = document.getElementById('slot-' + num);
+    if (!slot) return;
+    const phone = slot.querySelector('.phone');
+    if (!phone) return;
+    currentActiveSlot = num;
+    updateDockSelected(num);
+
+    const badgeText = slot.querySelector('.slot-label .badge')?.textContent || `${num}`;
+    const labelText = slot.querySelector('.slot-label span:last-child')?.textContent || `Screen ${num}`;
+    document.getElementById('zoomBadge').textContent = badgeText;
+    document.getElementById('zoomTitle').textContent = labelText;
+
+    const container = document.getElementById('zoomPhoneContainer');
+    container.innerHTML = '';
+    const clone = phone.cloneNode(true);
+    clone.style.boxShadow = '0 24px 60px rgba(0,0,0,0.55)';
+    container.appendChild(clone);
+    updateZoomScale();
+
+    document.getElementById('zoomModal').classList.add('active');
+    playChime('chime');
+  }
+
+  function navigateZoom(direction) {
+    const slots = Array.from(document.querySelectorAll('.slot:not(.hidden)'));
+    if (slots.length === 0) return;
+    const currentIdx = slots.findIndex(s => parseInt(s.id.replace('slot-', ''), 10) === currentActiveSlot);
+    let nextIdx = currentIdx + direction;
+    if (nextIdx < 0) nextIdx = slots.length - 1;
+    if (nextIdx >= slots.length) nextIdx = 0;
+    const targetNum = parseInt(slots[nextIdx].id.replace('slot-', ''), 10);
+    openZoomModal(targetNum);
+  }
+
+  function closeZoomModal() {
+    document.getElementById('zoomModal').classList.remove('active');
+    document.getElementById('zoomPhoneContainer').innerHTML = '';
+  }
+
+  window.addEventListener('resize', () => {
+    if (document.getElementById('zoomModal')?.classList.contains('active')) {
+      updateZoomScale();
+    }
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeZoomModal();
+    if (document.getElementById('zoomModal')?.classList.contains('active')) {
+      if (e.key === 'ArrowLeft') navigateZoom(-1);
+      if (e.key === 'ArrowRight') navigateZoom(1);
+    }
+  });
+
+  // Automatically initialize dock when page loads
+  document.addEventListener('DOMContentLoaded', initDock);
+  if (document.readyState !== 'loading') initDock();
+
+  // iOS Toggle Switches
+  function toggleSwitch(el) {
+    el.classList.toggle('on');
+    playChime('chime');
+  }
+
+  // Text-to-Sign Quick Phrases & Converter (Screen 05)
+  function setT2SQuick(text) {
+    const input = document.getElementById('t2s-input');
+    if (input) input.value = text;
+    const title = document.getElementById('t2s-card-title');
+    if (title) title.textContent = `"${text}"`;
+    const badge = document.getElementById('t2s-sign-badge');
+    if (badge) badge.textContent = `Sign: "${text}"`;
+    playChime('chime');
+    showToast(7, `Selected phrase: ${text}`);
+  }
+
+  function handleConvertT2S() {
+    const inputEl = document.getElementById('t2s-input');
+    const text = inputEl ? (inputEl.value.trim() || 'Mother') : 'Mother';
+    const title = document.getElementById('t2s-card-title');
+    if (title) title.textContent = `"${text}"`;
+    const badge = document.getElementById('t2s-sign-badge');
+    if (badge) badge.textContent = `Sign: "${text}"`;
+    playChime('chime');
+    showToast(7, `Converted to PSL sign: ${text}`);
+  }
+
+  // Quick Sign Insertion in Chat (Screen 07)
+  function insertQuickSign(signText) {
+    const input = document.getElementById('chat-text-input');
+    if (input) {
+      input.value = signText;
+      input.focus();
+    }
+    playChime('chime');
+    showToast(9, 'Inserted quick sign: ' + signText);
+  }
+
+  function sendChatMessage() {
+    const input = document.getElementById('chat-text-input');
+    if (!input) return;
+    const msg = input.value.trim();
+    if (!msg) return;
+    const stream = document.getElementById('dynamic-chat-messages');
+    
+    // Append sent message
+    const msgEl = document.createElement('div');
+    msgEl.style.cssText = 'display:flex; flex-direction:column; align-items:flex-end; width:100%; margin-top:6px;';
+    msgEl.innerHTML = `
+      <div style="background:var(--blue); color:#fff; border-radius:14px 14px 2px 14px; padding:8px 12px; max-width:85%; font-size:12px; box-shadow:0 3px 10px rgba(37,99,235,0.2);">
+        ${msg}
+        <span style="font-size:9px; opacity:0.7; display:block; text-align:right; margin-top:3px;">Just now • Sent</span>
+      </div>
+    `;
+    stream.appendChild(msgEl);
+    input.value = '';
+    playChime('chime');
+    showToast(9, 'Message sent');
+
+    // Simulate response after 1.2s
+    setTimeout(() => {
+      const replyEl = document.createElement('div');
+      replyEl.style.cssText = 'display:flex; flex-direction:column; align-items:flex-start; width:100%; margin-top:6px;';
+      replyEl.innerHTML = `
+        <div style="background:var(--surface); border:1px solid var(--line); border-radius:14px 14px 14px 2px; padding:8px 12px; max-width:85%; font-size:12px; box-shadow:var(--shadow-card);">
+          "Got it! Showing the 3D sign avatar now."
+          <span style="font-size:9.5px; color:var(--text-soft); display:block; margin-top:3px;">Alex • Hearing User</span>
+        </div>
+      `;
+      stream.appendChild(replyEl);
+      playChime('doorbell');
+    }, 1200);
+  }
+
+  // Web Speech API Text-to-Speech
+  function speakText(text) {
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+      const u = new SpeechSynthesisUtterance(text);
+      u.rate = 1.0;
+      window.speechSynthesis.speak(u);
+    }
+  }
+
+  // SOS Cancel Simulation (Screen 15)
+  function cancelSOS() {
+    clearInterval(sosTimer);
+    playChime('chime');
+    const el = document.getElementById('sos-countdown-num');
+    if (el) el.textContent = 'CANCELLED';
+    showToast(17, '🚨 SOS Cancelled - Alert Muted');
+    setTimeout(() => {
+      scrollToSlot(6);
+    }, 800);
+  }
+
+  // Auto-init SOS countdown when viewing Screen 15
+  function startSOSCountdown() {
+    sosSeconds = 5;
+    const el = document.getElementById('sos-countdown-num');
+    if (!el) return;
+    el.textContent = sosSeconds + 's';
+    clearInterval(sosTimer);
+    sosTimer = setInterval(() => {
+      sosSeconds--;
+      if (sosSeconds <= 0) {
+        clearInterval(sosTimer);
+        el.textContent = 'DISPATCHED';
+        playChime('sos');
+        showToast(17, 'Sirens sounding & SMS dispatched to 1122');
+      } else {
+        el.textContent = sosSeconds + 's';
+        playChime('sos');
+      }
+    }, 1000);
+  }
+
+  // Auth Interactive Handlers (Screens 20 & 21)
+  function selectAuthRole(btn, role) {
+    const parent = btn.parentElement;
+    parent.querySelectorAll('.auth-role-pill').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    playChime('chime');
+    const roleLabels = { signer: 'PSL Signer (Deaf/HH)', companion: 'Hearing Companion', interpreter: 'Certified Interpreter' };
+    showToast(3, 'Selected role: ' + (roleLabels[role] || role));
+  }
+
+  function togglePass(inputId, btn) {
+    const input = document.getElementById(inputId);
+    if (!input) return;
+    const isPass = input.type === 'password';
+    input.type = isPass ? 'text' : 'password';
+    btn.innerHTML = isPass 
+      ? '<svg viewBox="0 0 24 24" style="width:16px;height:16px;fill:currentColor;"><path d="M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.83l2.92 2.92c1.51-1.26 2.7-2.89 3.43-4.75-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7zM2 4.27l2.28 2.28.46.46C3.08 8.3 1.78 10.02 1 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.27 3 2 4.27zM7.53 9.8l1.55 1.55c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3 .22 0 .44-.03.65-.08l1.55 1.55c-.67.33-1.41.53-2.2.53-2.76 0-5-2.24-5-5 0-.79.2-1.53.53-2.2zm4.31-.78l3.15 3.15.02-.16c0-1.66-1.34-3-3-3l-.17.01z"/></svg>'
+      : '<svg viewBox="0 0 24 24" style="width:16px;height:16px;fill:currentColor;"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>';
+    playChime('chime');
+  }
+
+  function handleSignIn() {
+    const user = document.getElementById('signin-user')?.value || 'User';
+    playChime('chime');
+    showToast(2, 'Welcome back! Synced PSL model & assistive speaker');
+    setTimeout(() => {
+      scrollToSlot(6);
+    }, 700);
+  }
+
+  function handleSignUp() {
+    const name = document.getElementById('signup-name')?.value || 'New User';
+    playChime('doorbell');
+    const username = document.getElementById('signup-username')?.value || name;
+    showToast(3, 'Account created for @' + username + '! Setting up permissions...');
+    setTimeout(() => {
+      scrollToSlot(5);
+    }, 700);
+  }
+
+  function handleBiometricAuth() {
+    playChime('chime');
+    showToast(3, 'Face ID verified: Fiza Nizamani. Logging in...');
+    setTimeout(() => {
+      scrollToSlot(6);
+    }, 700);
+  }
+
+  function handleSocialAuth(provider) {
+    playChime('chime');
+    showToast(3, 'Connecting via ' + provider + '...');
+    setTimeout(() => {
+      showToast(3, 'Authenticated with ' + provider + '! Entering Signly...');
+      scrollToSlot(6);
+    }, 900);
+  }
+
+</script>
+
+</body>
+</html>
